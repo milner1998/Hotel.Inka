@@ -20,6 +20,12 @@ namespace HOTELINKA.APPLICATION
          
         public async Task<ResponseDTO> AddReservaAsync(RegistrarReservaRequest request)
         {
+            var ultimoRegistroIdentificador = await _reservaRepository.GetLastCodigoReservaAsync();
+ 
+            var newCodigo = ultimoRegistroIdentificador + 1;
+
+            request.CodigoReserva = "C" + newCodigo.ToString().PadLeft(4, '0');
+
             return _mapper.Map<ResponseDTO>(await _reservaRepository.AddReservaAsync(_mapper.Map<Reserva>(request)));
         }
     }

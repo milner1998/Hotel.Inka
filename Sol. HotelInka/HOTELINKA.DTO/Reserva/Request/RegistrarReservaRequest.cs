@@ -32,5 +32,8 @@ namespace HOTELINKA.DTO.Reserva.Request
         [JsonPropertyName("fechaSalida")]
         [SwaggerSchema("Fecha salida de la reserva.")]
         public DateTime FechaSalida { get; set; }
+
+        [JsonIgnore]
+        public string CodigoReserva { get; set; }
     }
 }

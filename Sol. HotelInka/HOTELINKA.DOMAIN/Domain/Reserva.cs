@@ -23,12 +23,10 @@ namespace HOTELINKA.DOMAIN.Domain
         public DateTime FECHA_SALIDA { get; set; }
 
         public string ESTADO_RESERVA { get; set; }
-
-        public DateTime FECHA_RESERVA { get; set; }
-
+ 
         public DateTime FECHA_REGISTRO { get; set; }
 
-        public DateTime FECHA_ACTUALIZACION { get; set; }
+        public DateTime? FECHA_ACTUALIZACION { get; set; }
 
     }
 }

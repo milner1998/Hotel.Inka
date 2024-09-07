@@ -11,7 +11,7 @@ namespace HOTELINKA.REPOSITORY.Context
 
         #region DBSET
 
-        public DbSet<Reserva> Deuda { get; set; }
+        public DbSet<Reserva> Reserva { get; set; }
 
         #endregion 
 
