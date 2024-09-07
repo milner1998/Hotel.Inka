@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HOTELINKA.API\HOTELINKA.API.csproj" />
     <ProjectReference Include="..\HOTELINKA.DOMAIN\HOTELINKA.DOMAIN.csproj" />
   </ItemGroup>
 

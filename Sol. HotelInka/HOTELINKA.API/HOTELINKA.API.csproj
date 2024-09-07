@@ -20,8 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HOTELINKA.APPLICATION\HOTELINKA.APPLICATION.csproj" />
+	  
     <ProjectReference Include="..\HOTELINKA.DTO\HOTELINKA.DTO.csproj" />
     <ProjectReference Include="..\HOTELINKA.EXTENSIONS\HOTELINKA.EXTENSIONS.csproj" />
+    <ProjectReference Include="..\HOTELINKA.REPOSITORY\HOTELINKA.REPOSITORY.csproj" />
+  
   </ItemGroup>
 
 </Project>
