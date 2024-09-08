@@ -2,6 +2,7 @@
 using HOTELINKA.DOMAIN.Interface;
 using HOTELINKA.REPOSITORY.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,14 @@ namespace HOTELINKA.REPOSITORY.Repository
             await InsertAsync(reserva);
             await _context.SaveChangesAsync();
             return reserva;
+        }
+
+        public async Task<List<CatalogoHabitaciones>> GetAllCatalogoHabitaciones()
+        {
+
+            return  await All<CatalogoHabitaciones>()
+            .ToListAsync();
+
         }
 
         public async Task<int?> GetLastCodigoReservaAsync()

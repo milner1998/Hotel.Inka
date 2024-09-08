@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Reserva\Response\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Swashbuckle" Version="5.6.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.7.3" />

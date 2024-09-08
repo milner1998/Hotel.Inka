@@ -3,6 +3,7 @@ using HOTELINKA.DOMAIN.Domain;
 using HOTELINKA.DOMAIN.Interface;
 using HOTELINKA.DTO;
 using HOTELINKA.DTO.Reserva.Request;
+using HOTELINKA.DTO.Reserva.Response;
 
 namespace HOTELINKA.APPLICATION
 {
@@ -27,6 +28,11 @@ namespace HOTELINKA.APPLICATION
             request.CodigoReserva = "C" + newCodigo.ToString().PadLeft(4, '0');
 
             return _mapper.Map<ResponseDTO>(await _reservaRepository.AddReservaAsync(_mapper.Map<Reserva>(request)));
+        }
+        public async Task<List<ObtenerCalogoHabitacionesDTO>> ObtenerCalogoHabitacionesAsync()
+        {
+
+            return _mapper.Map<List<ObtenerCalogoHabitacionesDTO>>(await _reservaRepository.GetAllCatalogoHabitaciones());
         }
     }
 }

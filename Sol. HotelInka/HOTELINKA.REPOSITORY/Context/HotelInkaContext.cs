@@ -12,6 +12,9 @@ namespace HOTELINKA.REPOSITORY.Context
         #region DBSET
 
         public DbSet<Reserva> Reserva { get; set; }
+        public DbSet<CatalogoHabitaciones> CatalogoHabitaciones { get; set; }
+
+        public DbSet<OrdenDeHospedaje> OrdenDeHospedaje { get; set; }
 
         #endregion 
 
@@ -21,8 +24,14 @@ namespace HOTELINKA.REPOSITORY.Context
 
             builder.Entity<Reserva>()
                .HasKey(o => new { o.ID });
- 
-             
+
+            builder.Entity<CatalogoHabitaciones>()
+                .HasKey(o => new { o.ID_HABITACION});
+
+            builder.Entity<OrdenDeHospedaje>()
+                .HasKey(o => new { o.id_OrdenDeHospedaje });
+
+
             DbSeed(builder);
 
             base.OnModelCreating(builder);

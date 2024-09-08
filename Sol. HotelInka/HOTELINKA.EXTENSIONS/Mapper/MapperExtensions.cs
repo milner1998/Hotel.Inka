@@ -2,6 +2,7 @@
 using HOTELINKA.DOMAIN.Domain;
 using HOTELINKA.DTO;
 using HOTELINKA.DTO.Reserva.Request;
+using HOTELINKA.DTO.Reserva.Response;
 
 namespace HOTELINKA.EXTENSIONS.Mapper
 {
@@ -29,6 +30,16 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.TitleMessage = "Éxito";
                 dst.Message = "Su reserva ha sido generada correctamente";
                 dst.Id = src.ID;
+            });
+            CreateMap<CatalogoHabitaciones, ObtenerCalogoHabitacionesDTO>().AfterMap((src, dst) =>
+            {
+                dst.id_Habitacion = src.ID_HABITACION;
+                dst.num_Habitacion = src.NUM_HABITACION;
+                dst.Tipo_Habitacion = src.TIPO_HABITACION;
+                dst.Capacidad = src.CAPACIDAD;
+                dst.PRECIOXNOCHE = src.PRECIOXNOCHE;
+                dst.DESCRIPCION_HABITACION = src.DESCRIPCION_HABITACION;
+                dst.ESTADO_HABITACION = src.ESTADO_HABITACION;
             });
 
         }

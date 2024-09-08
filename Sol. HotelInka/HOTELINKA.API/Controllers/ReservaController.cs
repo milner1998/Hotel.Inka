@@ -25,5 +25,17 @@ namespace HOTELINKA.API.Controllers
         {
             return Ok(await _reservaService.AddReservaAsync(request));
         }
+
+        [SwaggerOperation(
+       Summary = "Servicio que obtiene todas las habitaciones disponibles",
+       OperationId = "ObtenerCalogoHabitacionesAsync")]
+        [SwaggerResponse(200, "Catalogo Disponibles")]
+        [SwaggerResponse(500, "Error interno en el servidor")]
+        [HttpGet("obtenerCalogoHabitacionesAsync")]
+        public async Task<IActionResult> ObtenerCalogoHabitacionesAsync()
+        {
+            return Ok(await _reservaService.ObtenerCalogoHabitacionesAsync());
+        }
+
     }
 }
