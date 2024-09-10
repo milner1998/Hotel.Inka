@@ -7,6 +7,7 @@ namespace HOTELINKA.DOMAIN.Interface
     public interface IReservaRepository
     {
         Task<int?> GetLastCodigoReservaAsync();
+
         Task<List<CatalogoHabitaciones>> GetAllCatalogoHabitaciones();
 
         Task<Reserva> AddReservaAsync(Reserva reserva);

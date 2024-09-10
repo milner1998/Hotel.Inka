@@ -8,5 +8,7 @@ namespace HOTELINKA.APPLICATION
     {
         Task<ResponseDTO> AddReservaAsync(RegistrarReservaRequest request);
         Task<List<ObtenerCalogoHabitacionesDTO>> ObtenerCalogoHabitacionesAsync();
+
+
     }
 }

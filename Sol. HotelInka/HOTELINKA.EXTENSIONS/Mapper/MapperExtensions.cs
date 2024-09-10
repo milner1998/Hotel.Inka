@@ -42,6 +42,18 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.ESTADO_HABITACION = src.ESTADO_HABITACION;
             });
 
+
+            CreateMap<Reserva, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
+            {
+                //dst.id_Habitacion = src.ID_HABITACION;
+                //dst.num_Habitacion = src.NUM_HABITACION;
+                //dst.Tipo_Habitacion = src.TIPO_HABITACION;
+                //dst.Capacidad = src.CAPACIDAD;
+                //dst.PRECIOXNOCHE = src.PRECIOXNOCHE;
+                //dst.DESCRIPCION_HABITACION = src.DESCRIPCION_HABITACION;
+                //dst.ESTADO_HABITACION = src.ESTADO_HABITACION;
+            });
+
         }
     }
 }

@@ -34,5 +34,12 @@ namespace HOTELINKA.APPLICATION
 
             return _mapper.Map<List<ObtenerCalogoHabitacionesDTO>>(await _reservaRepository.GetAllCatalogoHabitaciones());
         }
+
+        //public async Task<ObtenerClientePorDNIDTO> ObtenerClienteXDNIAsync()
+        //{
+
+        //    return _mapper.Map<ObtenerClientePorDNIDTO>(await _reservaRepository.GetAllCatalogoHabitaciones());
+        //}
+
     }
 }

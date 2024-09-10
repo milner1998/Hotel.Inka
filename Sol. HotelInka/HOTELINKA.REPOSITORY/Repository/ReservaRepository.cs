@@ -23,12 +23,17 @@ namespace HOTELINKA.REPOSITORY.Repository
             return reserva;
         }
 
+        public async Task<Reserva> GetClienteByDNI(string dni)
+        {
+            return await All<Reserva>().AsNoTracking()
+                .Where(reserva => reserva.DNI_CLIENTE == dni).FirstOrDefaultAsync();
+        }
+
+
         public async Task<List<CatalogoHabitaciones>> GetAllCatalogoHabitaciones()
         {
-
-            return  await All<CatalogoHabitaciones>()
+            return await All<CatalogoHabitaciones>()
             .ToListAsync();
-
         }
 
         public async Task<int?> GetLastCodigoReservaAsync()
@@ -38,7 +43,6 @@ namespace HOTELINKA.REPOSITORY.Repository
 
             return ultimaReserva?.ID;
         }
-
-
+ 
     }
 }
