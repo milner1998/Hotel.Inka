@@ -5,6 +5,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace HOTELINKA.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ReservaController : Controller
     {
         private readonly IRservaService _reservaService;
