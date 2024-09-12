@@ -18,11 +18,11 @@ namespace HOTELINKA.APPLICATION
             _mapper = mapper;
             _reservaRepository = reservaRepository;
         }
-         
+
         public async Task<ResponseDTO> AddReservaAsync(RegistrarReservaRequest request)
         {
             var ultimoRegistroIdentificador = await _reservaRepository.GetLastCodigoReservaAsync();
- 
+
             var newCodigo = ultimoRegistroIdentificador + 1;
 
             request.CodigoReserva = "C" + newCodigo.ToString().PadLeft(4, '0');
@@ -35,11 +35,10 @@ namespace HOTELINKA.APPLICATION
             return _mapper.Map<List<ObtenerCalogoHabitacionesDTO>>(await _reservaRepository.GetAllCatalogoHabitaciones());
         }
 
-        //public async Task<ObtenerClientePorDNIDTO> ObtenerClienteXDNIAsync()
-        //{
+        public async Task<ObtenerClientePorDNIDTO> ObtenerClienteXDNIAsync(string dni)
+        {
 
-        //    return _mapper.Map<ObtenerClientePorDNIDTO>(await _reservaRepository.GetAllCatalogoHabitaciones());
-        //}
-
+            return _mapper.Map<ObtenerClientePorDNIDTO>(await _reservaRepository.GetClienteByDNI(dni));
+        }
     }
 }

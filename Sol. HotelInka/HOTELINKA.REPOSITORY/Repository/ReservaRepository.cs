@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HOTELINKA.REPOSITORY.Repository
 {
-    public class ReservaRepository : BaseRepository, IReservaRepository
+    public class ReservaRepository : BaseRepository, IReservaRepository  
     {
         private HotelInkaContext _context;
         public ReservaRepository(HotelInkaContext context) : base(context)

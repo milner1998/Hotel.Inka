@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 
 namespace HOTELINKA.DOMAIN.Interface
 {
-    public interface IReservaRepository
+    public interface IReservaRepository 
     {
         Task<int?> GetLastCodigoReservaAsync();
 
         Task<List<CatalogoHabitaciones>> GetAllCatalogoHabitaciones();
 
         Task<Reserva> AddReservaAsync(Reserva reserva);
+
+        Task<Reserva> GetClienteByDNI(string dni);
     }
 }

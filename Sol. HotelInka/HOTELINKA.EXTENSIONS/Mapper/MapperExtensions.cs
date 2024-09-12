@@ -45,13 +45,11 @@ namespace HOTELINKA.EXTENSIONS.Mapper
 
             CreateMap<Reserva, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
             {
-                //dst.id_Habitacion = src.ID_HABITACION;
-                //dst.num_Habitacion = src.NUM_HABITACION;
-                //dst.Tipo_Habitacion = src.TIPO_HABITACION;
-                //dst.Capacidad = src.CAPACIDAD;
-                //dst.PRECIOXNOCHE = src.PRECIOXNOCHE;
-                //dst.DESCRIPCION_HABITACION = src.DESCRIPCION_HABITACION;
-                //dst.ESTADO_HABITACION = src.ESTADO_HABITACION;
+                dst.dniCliente = src.DNI_CLIENTE;
+                dst.NomCliente = src.NOMBRE_CLIENTE;
+                dst.ApeCliente = src.APELLIDO_CLIENTE.Trim();
+                dst.telefonoCliente = src.TELEFONO_CLIENTE;
+                dst.correoCliente = src.CORREO_ELECTRONICO.Trim() ?? string.Empty;
             });
 
         }

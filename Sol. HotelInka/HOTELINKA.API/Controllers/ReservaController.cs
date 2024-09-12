@@ -39,15 +39,15 @@ namespace HOTELINKA.API.Controllers
             return Ok(await _reservaService.ObtenerCalogoHabitacionesAsync());
         }
 
-        //[SwaggerOperation(
-//Summary = "Servicio que agrega una reserva nueva",
-//OperationId = "AddReservaAsync")]
-        //[SwaggerResponse(200, "Reserva agregado correctamente")]
-        //[SwaggerResponse(500, "Error interno en el servidor")]
-        //[HttpPost("addReservaAsync")]
+        [SwaggerOperation(
+        Summary = "Servicio que obtiene el DNI del cliente",
+        OperationId = "ObtenerClienteXDNIAsync")]
+        [SwaggerResponse(200, "Servicio que Obtiene la informacion del cliente por DNI")]
+        [SwaggerResponse(500, "Error interno en el servidor")]
+        [HttpGet("obtenerClienteXDNIAsync")]
         public async Task<IActionResult> ObtenerClienteXDNIAsync(string dni)
         {
-            //return Ok(await _reservaService.AddReservaAsync(request));
+            return Ok(await _reservaService.ObtenerClienteXDNIAsync(dni));
         }
 
     }
