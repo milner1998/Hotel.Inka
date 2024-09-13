@@ -14,10 +14,6 @@ namespace HOTELINKA.DTO.Reserva.Request
         [SwaggerSchema("Documento de identidad del cliente")]
         public int IdOrdenHodepaje { get; set; }
 
-        [JsonPropertyName("codOrdenHospedaje")]
-        [SwaggerSchema("Documento de identidad del cliente")]
-        public string codOrdenHospedaje { get; set; }
-
         [JsonPropertyName("idReserva")]
         [SwaggerSchema("Nombre del cliente.")]
         public int IdReserva{ get; set; }

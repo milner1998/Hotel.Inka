@@ -12,5 +12,7 @@ namespace HOTELINKA.APPLICATION
         Task<ObtenerClientePorDNIDTO> ObtenerClienteXDNIAsync(string dni);
 
         Task<ResponseDTO> AddOrdenHospedajeAsync(RegistrarOrdenHospedaje request);
+
+        /*Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni);*/
     }
 }

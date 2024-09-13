@@ -13,7 +13,6 @@ namespace HOTELINKA.EXTENSIONS.Mapper
             CreateMap<RegistrarReservaRequest, Reserva>().AfterMap((src, dst) =>
             {
                 dst.DNI_CLIENTE = src.DniCliente;
-                dst.CODIGO_RESERVA = src.CodigoReserva;
                 dst.NOMBRE_CLIENTE = src.NombreCliente;
                 dst.APELLIDO_CLIENTE = src.ApellidoCliente.Trim();
                 dst.CORREO_ELECTRONICO = src.CorreoElectronico.Trim() ?? string.Empty;
@@ -21,7 +20,6 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.FECHA_INGRESO = DateTime.UtcNow;
                 dst.FECHA_SALIDA  = DateTime.UtcNow;
                 dst.ESTADO_RESERVA = "Activo";
-                dst.FECHA_REGISTRO = DateTime.UtcNow;
             });
 
             CreateMap<Reserva, ResponseDTO>().AfterMap((src, dst) =>
@@ -39,7 +37,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.Capacidad = src.CAPACIDAD;
                 dst.PRECIOXNOCHE = src.PRECIOXNOCHE;
                 dst.DESCRIPCION_HABITACION = src.DESCRIPCION_HABITACION;
-                dst.ESTADO_HABITACION = src.ESTADO_HABITACION;
+                dst.ESTADO_HABITACION = "Disponible";
             });
 
 
@@ -50,12 +48,14 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.ApeCliente = src.APELLIDO_CLIENTE.Trim();
                 dst.telefonoCliente = src.TELEFONO_CLIENTE;
                 dst.correoCliente = src.CORREO_ELECTRONICO.Trim() ?? string.Empty;
+                dst.TipoHabitacion = src.TIPOHABITACION;
+                dst.Descripcion = src.DESCRIPCION;
+                dst.Capacidad = src.CAPACIDAD;
             });
 
            CreateMap<RegistrarOrdenHospedaje, OrdenDeHospedaje>().AfterMap((src, dst) =>
             {
                 dst.Id_OrdenDeHospedaje = src.IdOrdenHodepaje;
-                dst.codigo_OrdenDeHospedaje = src.codOrdenHospedaje;
                 //dst.Id_Reserva = src.IdReserva;
                 //dst.Id_Habitacion = src.IdHabitacion;
                 dst.fecha_inicio = src.FechaInicio;
@@ -71,6 +71,13 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.Message = "Su Orden De Hospedaje ha sido generada correctamente";
                 dst.Id = src.Id_OrdenDeHospedaje;
             });
+
+            /*CreateMap<Reserva, ObtenerReservaDTO>().AfterMap((src, dst) =>
+            {
+                dst.TipoHabitacion = src.TIPOHABITACION;
+                dst.Descripcion = src.DESCRIPCION;
+                dst.Capacidad = src.CAPACIDAD;
+            });*/
 
         }
     }

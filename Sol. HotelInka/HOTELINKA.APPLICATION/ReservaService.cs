@@ -32,7 +32,7 @@ namespace HOTELINKA.APPLICATION
         public async Task<List<ObtenerCalogoHabitacionesDTO>> ObtenerCalogoHabitacionesAsync()
         {
 
-            return _mapper.Map<List<ObtenerCalogoHabitacionesDTO>>(await _reservaRepository.GetAllCatalogoHabitaciones());
+            return _mapper.Map<List<ObtenerCalogoHabitacionesDTO>>(await _reservaRepository.GetCatalogoHabitaciones());
         }
 
         public async Task<ObtenerClientePorDNIDTO> ObtenerClienteXDNIAsync(string dni)
@@ -45,7 +45,13 @@ namespace HOTELINKA.APPLICATION
         {
 
             return _mapper.Map<ResponseDTO>(await _reservaRepository.AddOrdenHospedajeAsync(_mapper.Map<OrdenDeHospedaje>(request)));
-        }   
+        }
+
+        /*public async Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni)
+        {
+
+            return _mapper.Map<ObtenerReservaDTO>(await _reservaRepository.GetReservaXDNI(dni));
+        }*/
     }
 
 }

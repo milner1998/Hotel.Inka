@@ -30,10 +30,10 @@ namespace HOTELINKA.REPOSITORY.Repository
         }
 
 
-        public async Task<List<CatalogoHabitaciones>> GetAllCatalogoHabitaciones()
+        public async Task<List<CatalogoHabitaciones>> GetCatalogoHabitaciones()
         {
             return await All<CatalogoHabitaciones>()
-            .ToListAsync();
+            .Where(CatalogoHabitaciones => CatalogoHabitaciones.ESTADO_HABITACION == "Disponible").ToListAsync();;
         }
 
         public async Task<int?> GetLastCodigoReservaAsync()
@@ -50,6 +50,12 @@ namespace HOTELINKA.REPOSITORY.Repository
             await _context.SaveChangesAsync();
             return ordenDeHospedaje;
         }
+
+        /*public async Task<Reserva> GetReservaXDNI(string dni)
+        {
+            return await All<Reserva>().AsNoTracking()
+                .Where(reserva => reserva.DNI_CLIENTE == dni).FirstOrDefaultAsync();
+        }*/
 
     }
 }

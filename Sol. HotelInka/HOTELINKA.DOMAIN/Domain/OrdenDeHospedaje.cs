@@ -10,13 +10,11 @@ namespace HOTELINKA.DOMAIN.Domain
     {
         public int Id_OrdenDeHospedaje { get; set; }
 
-        public string codigo_OrdenDeHospedaje { get; set; }
+        public int Id_Reserva { get; set; }
 
-        //public int Id_Reserva { get; set; }
+        public int Id_Husped { get; set; }
 
-        //public int Id_Husped { get; set; }
-
-        //public int Id_Habitacion { get; set; }
+        public int Id_Habitacion { get; set; }
 
         public DateTime fecha_inicio { get; set; }
 
