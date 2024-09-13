@@ -1,5 +1,4 @@
-﻿using HOTELINKA.DOMAIN.Domain;
-using HOTELINKA.DTO;
+﻿using HOTELINKA.DTO;
 using HOTELINKA.DTO.Reserva.Request;
 using HOTELINKA.DTO.Reserva.Response;
 
