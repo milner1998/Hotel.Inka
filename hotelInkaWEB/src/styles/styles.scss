@@ -1,0 +1,56 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+@import 'ngx-toastr/toastr';
+
+.no-resize-text-area {
+  resize: none !important;
+}
+
+.capitalize-input {
+  text-transform: capitalize;
+}
+  
+.color-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.mobil-btn {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 37px !important;
+  border-radius: 20px !important;
+  cursor: pointer;
+
+  button {
+    width: 100%;
+  }
+}
+
+.money-align {
+  text-align: right;
+}
+
+.height-dialog {
+  max-height: 95vh;
+}
+
+
+.paginator .mat-mdc-paginator {
+  background-color: transparent !important;
+}
+
+.paginator .mat-mdc-text-field-wrapper {
+  background: #fff;
+}
+
+.paginator .mat-mdc-paginator-icon {
+  fill: #42a5f5;
+
+}

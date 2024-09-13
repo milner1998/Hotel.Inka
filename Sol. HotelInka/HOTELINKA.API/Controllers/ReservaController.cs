@@ -45,7 +45,7 @@ namespace HOTELINKA.API.Controllers
         [SwaggerResponse(200, "Servicio que Obtiene la informacion del cliente por DNI")]
         [SwaggerResponse(500, "Error interno en el servidor")]
         [HttpGet("obtenerClienteXDNIAsync")]
-        public async Task<IActionResult> ObtenerClienteXDNIAsync(string dni)
+        public async Task<IActionResult> ObtenerClienteXDNIAsync([FromQuery] string dni)
         {
             return Ok(await _reservaService.ObtenerClienteXDNIAsync(dni));
         }
