@@ -40,5 +40,12 @@ namespace HOTELINKA.APPLICATION
 
             return _mapper.Map<ObtenerClientePorDNIDTO>(await _reservaRepository.GetClienteByDNI(dni));
         }
+
+        public async Task<ResponseDTO> AddOrdenHospedajeAsync(RegistrarOrdenHospedaje request)
+        {
+
+            return _mapper.Map<ResponseDTO>(await _reservaRepository.AddOrdenHospedajeAsync(_mapper.Map<OrdenDeHospedaje>(request)));
+        }   
     }
+
 }

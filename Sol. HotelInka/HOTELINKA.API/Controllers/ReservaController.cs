@@ -50,5 +50,16 @@ namespace HOTELINKA.API.Controllers
             return Ok(await _reservaService.ObtenerClienteXDNIAsync(dni));
         }
 
+       [SwaggerOperation(
+        Summary = "Servicio que agrega una Orden de Hospedaje",
+        OperationId = "AddOrdenHospedajeAsync")]
+        [SwaggerResponse(200, "Orden de Hospedaje")]
+        [SwaggerResponse(500, "Error interno en el servidor")]
+        [HttpPost("AddOrdenHospejaeAsync")]
+        public async Task<IActionResult> AddOrdenHospedajeAsync([FromBody] RegistrarOrdenHospedaje request)
+        {
+            return Ok(await _reservaService.AddOrdenHospedajeAsync(request));
+        }
+
     }
 }

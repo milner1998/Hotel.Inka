@@ -39,10 +39,17 @@ namespace HOTELINKA.REPOSITORY.Repository
         public async Task<int?> GetLastCodigoReservaAsync()
         {
             var ultimaReserva = await All<Reserva>()
-                .OrderByDescending(r => r.ID).FirstOrDefaultAsync();
+                .OrderByDescending(r => r.ID_RESERVA).FirstOrDefaultAsync();
 
-            return ultimaReserva?.ID;
+            return ultimaReserva?.ID_RESERVA;
         }
- 
+
+        public async Task<OrdenDeHospedaje> AddOrdenHospedajeAsync(OrdenDeHospedaje ordenDeHospedaje)
+        {
+            await InsertAsync(ordenDeHospedaje);
+            await _context.SaveChangesAsync();
+            return ordenDeHospedaje;
+        }
+
     }
 }

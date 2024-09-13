@@ -29,7 +29,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.Success = true;
                 dst.TitleMessage = "Éxito";
                 dst.Message = "Su reserva ha sido generada correctamente";
-                dst.Id = src.ID;
+                dst.Id = src.ID_RESERVA;
             });
             CreateMap<CatalogoHabitaciones, ObtenerCalogoHabitacionesDTO>().AfterMap((src, dst) =>
             {
@@ -50,6 +50,26 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.ApeCliente = src.APELLIDO_CLIENTE.Trim();
                 dst.telefonoCliente = src.TELEFONO_CLIENTE;
                 dst.correoCliente = src.CORREO_ELECTRONICO.Trim() ?? string.Empty;
+            });
+
+           CreateMap<RegistrarOrdenHospedaje, OrdenDeHospedaje>().AfterMap((src, dst) =>
+            {
+                dst.Id_OrdenDeHospedaje = src.IdOrdenHodepaje;
+                dst.codigo_OrdenDeHospedaje = src.codOrdenHospedaje;
+                //dst.Id_Reserva = src.IdReserva;
+                //dst.Id_Habitacion = src.IdHabitacion;
+                dst.fecha_inicio = src.FechaInicio;
+                dst.fecha_fin = DateTime.UtcNow;
+                dst.Total_Pago = src.TotalPago;
+                dst.Estado_OrdenDeHospedaje = "Pen pago Caja";
+            });
+
+            CreateMap<OrdenDeHospedaje, ResponseDTO>().AfterMap((src, dst) =>
+            {
+                dst.Success = true;
+                dst.TitleMessage = "Éxito";
+                dst.Message = "Su Orden De Hospedaje ha sido generada correctamente";
+                dst.Id = src.Id_OrdenDeHospedaje;
             });
 
         }

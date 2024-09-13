@@ -4,7 +4,7 @@ namespace HOTELINKA.DOMAIN.Domain
 {
     public class Reserva : Entity
     {
-        public int ID { get; set; }
+        public int ID_RESERVA { get; set; }
 
         public string CODIGO_RESERVA { get; set; }
 

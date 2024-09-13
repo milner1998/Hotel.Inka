@@ -6,17 +6,23 @@ using System.Threading.Tasks;
 
 namespace HOTELINKA.DOMAIN.Domain
 {
-    public class OrdenDeHospedaje
+    public class OrdenDeHospedaje : Entity
     {
-        public int id_OrdenDeHospedaje { get; set; }
+        public int Id_OrdenDeHospedaje { get; set; }
 
         public string codigo_OrdenDeHospedaje { get; set; }
+
+        //public int Id_Reserva { get; set; }
+
+        //public int Id_Husped { get; set; }
+
+        //public int Id_Habitacion { get; set; }
 
         public DateTime fecha_inicio { get; set; }
 
         public DateTime fecha_fin { get; set; }
 
-        public double Total_Pago { get; set; }
+        public decimal Total_Pago { get; set; }
 
         public string Estado_OrdenDeHospedaje { get; set; }
 

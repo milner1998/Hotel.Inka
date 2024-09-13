@@ -23,13 +23,13 @@ namespace HOTELINKA.REPOSITORY.Context
             #region TABLES
 
             builder.Entity<Reserva>()
-               .HasKey(o => new { o.ID });
+               .HasKey(o => new { o.ID_RESERVA });
 
             builder.Entity<CatalogoHabitaciones>()
                 .HasKey(o => new { o.ID_HABITACION});
 
             builder.Entity<OrdenDeHospedaje>()
-                .HasKey(o => new { o.id_OrdenDeHospedaje });
+                .HasKey(o => new { o.Id_OrdenDeHospedaje });
 
 
             DbSeed(builder);
