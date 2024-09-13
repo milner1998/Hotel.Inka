@@ -7,6 +7,7 @@ export const Auth = {
  
 export const Reserva = {
    ObtenerCalogoHabitacionesAsync:  '/api/Reserva/obtenerCalogoHabitacionesAsync',
+   ObtenerClienteXDNIAsync:  '/api/Reserva/obtenerClienteXDNIAsync',
 };
  
  

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../http/api.service';
 import * as Url from '../../constants/api.constants';
 import { Observable, tap } from 'rxjs';
-import { ToolService } from '../tool/tool.service';
 import { ObtenerCatalogoHabitacionesDTO } from '../../models/reserva/response/lista/obtener-catalogo-habitaciones-dto.model';
+import { ObtenerClientePorDNIDTO } from 'app/core/models/reserva/response/lista/obtener-cliente-por-dni-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,15 @@ import { ObtenerCatalogoHabitacionesDTO } from '../../models/reserva/response/li
 export class ReservaService {
 
   constructor(private apiService: ApiService,
-    private _toolService: ToolService,
   ) { }
 
   ObtenerCalogoHabitacionesAsync(): Observable<ObtenerCatalogoHabitacionesDTO[]> {
     return this.apiService.get(Url.Reserva.ObtenerCalogoHabitacionesAsync)
+      .pipe(tap(data => data));
+  }
+
+  ObtenerClienteXDNIAsync(dni: string): Observable<ObtenerClientePorDNIDTO> {
+    return this.apiService.query(Url.Reserva.ObtenerClienteXDNIAsync, { dni })
       .pipe(tap(data => data));
   }
 

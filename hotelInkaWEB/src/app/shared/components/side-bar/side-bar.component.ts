@@ -11,7 +11,7 @@ import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { LanguagesComponent } from 'app/layout/common/languages/languages.component';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
-import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
+ 
  
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
@@ -20,7 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports      : [FuseLoadingBarComponent, NgIf, FuseVerticalNavigationComponent, FuseHorizontalNavigationComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent,   ShortcutsComponent, MessagesComponent, NotificationsComponent, UserComponent, RouterOutlet],
+  imports      : [FuseLoadingBarComponent, NgIf, FuseVerticalNavigationComponent, FuseHorizontalNavigationComponent, MatButtonModule, MatIconModule, LanguagesComponent, FuseFullscreenComponent,   ShortcutsComponent, MessagesComponent, UserComponent, RouterOutlet],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss'
 })

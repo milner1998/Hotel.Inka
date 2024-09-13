@@ -1,138 +1,199 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ObtenerCatalogoHabitacionesDTO } from 'app/core/models/reserva/response/lista/obtener-catalogo-habitaciones-dto.model';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDrawer } from '@angular/material/sidenav';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { DictionaryInfo, Flags, Numeracion, OrigenPlataforma } from 'app/core/resource/dictionary.constants';
-import { FuseValidators } from '@fuse/validators';
-import { DictionaryErrors, DictionaryWarning } from 'app/core/resource/dictionaryError.constants';
+import { Flags, Numeracion } from 'app/core/resource/dictionary.constants';
+import { DictionaryErrors } from 'app/core/resource/dictionaryError.constants';
 import { ToolService } from 'app/core/services/tool/tool.service';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { ResponseDTO } from 'app/core/models/generic/response-dto.model';
 import { ReservaService } from 'app/core/services/reserva/reserva.service';
+import { ObtenerClientePorDNIDTO } from 'app/core/models/reserva/response/lista/obtener-cliente-por-dni-dto.model';
 
 @Component({
-  selector: 'app-lista-reserva-page',
-  standalone: false,
- 
-  templateUrl: './lista-reserva-page.component.html',
-  styleUrl: './lista-reserva-page.component.scss'
+    selector: 'app-lista-reserva-page',
+    standalone: false,
+
+    templateUrl: './lista-reserva-page.component.html',
+    styleUrl: './lista-reserva-page.component.scss'
 })
-export class ListaReservaPageComponent  implements OnInit, AfterViewInit, OnDestroy {
+export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestroy {
+
+    public allCatalogoHabitacionesDataSource: ObtenerCatalogoHabitacionesDTO[];
+
+    public disabledBtnNuevo: boolean = false;g
+    public disabledAcciones: boolean = false;
+    public disabledBuscar: boolean = false;
+
+    public textoResultadoTable: string = "";
+
+    public isCallingService: boolean = Flags.False;
+
+    @ViewChild('listaCatalogoHabitacionesTable', { read: MatSort }) private listaCatalogoHabitacionesTableMatSort: MatSort;
+    public clienteDetalleDataSource: MatTableDataSource<ObtenerClientePorDNIDTO> = new MatTableDataSource();
+
+    @ViewChild(MatPaginator) private _paginator: MatPaginator;
+
+    filtroListaClienteForm: UntypedFormGroup;
+    filtroFechaForm: UntypedFormGroup;
  
-  public allCatalogoHabitacionesDataSource: ObtenerCatalogoHabitacionesDTO[];
-
-  public disabledBtnNuevo: boolean = false;
-  public disabledAcciones: boolean = false;
-  public disabledBuscar: boolean = false;
-
-  public textoResultadoTable: string = "";
-
-  @ViewChild('listaCatalogoHabitacionesTable', { read: MatSort }) private listaCatalogoHabitacionesTableMatSort: MatSort;
-  @ViewChild(MatPaginator) private _paginator: MatPaginator;
- 
-
-  filtroListaIngresoForm: UntypedFormGroup;
-
-  public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
-  public allIngresosDataSource: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
-  public catalogoTableColumns: string[] = ['id', 'numHabitacion', 'tipoHabitacion', 'capacidad',  'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
- 
-  constructor(
-      private _reservaService: ReservaService,
-      private _toolService: ToolService) {
-  }
-
-  ngOnInit() {
-    this.GetAllIngresoByFilterAsync();
-      this.formFiltros();
- 
-  }
-
-  ngAfterViewInit() {
-      this.pageSlice.sortingDataAccessor = this.sortingActivoData;
- 
-      this.pageSlice.paginator = this._paginator;
-  }
-
-  formatCurrency(amount: number, currencySymbol: string): string {
-      return `${currencySymbol}${amount.toFixed(2)}`;
-  }
-
-  ngOnDestroy() {
-
-      this._unsubscribeAll.next(null);
-      this._unsubscribeAll.complete();
-  }
-
-  formFiltros() {
-    //   this.filtroListaIngresoForm = this._formBuilder.group({
-    //       nombre: [''],
-    //       fechaIngresoInicio: [this._toolService.getStartDateTimeOfYear()],
-    //       fechaIngresoFin: [this._toolService.getEndDateTimeOfYear()],
-    //       montoInicio: [''],
-    //       montoFin: [''],
-    //       categoria: [''],
-    //   });
-  }
-
-  GetAllIngresoByFilterAsync() {
-    debugger;
-    this._reservaService.ObtenerCalogoHabitacionesAsync().subscribe((response: ObtenerCatalogoHabitacionesDTO[]) => {
-        debugger;
-        this.allIngresosDataSource.data = response;
-        this.pageSlice.data = [];
-        if (this.allIngresosDataSource.data.length > Numeracion.Cero) {
-            this.setPageSlice(this.allIngresosDataSource.data);
-            this.disabledBuscar = Flags.False;
-        
-            return;
-        }
-        this.textoResultadoTable = DictionaryInfo.NoDataTable;
-        this.disabledBuscar = Flags.False;
- 
-    }, err => {
-        this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
-        this.disabledBuscar = Flags.False;
-        console.log(err);
+    public pageSlicePersona: MatTableDataSource<ObtenerClientePorDNIDTO> = new MatTableDataSource();
      
-    });
-}
+    public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
+    
+    public catalogoTableColumns: string[] = ['tipoHabitacion', 'descripcion', 'capHabitacion'];
+    public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+    constructor(
+        private _formBuilder: UntypedFormBuilder,
+        private _reservaService: ReservaService,
+        private _toolService: ToolService) {
+    }
+
+    ngOnInit() {
+        this.formFiltros();
+
+    }
+
+    onShowFormRegistrarDeudaDialog() {
+        this.isCallingService = Flags.True;
+    }
+
+    ngAfterViewInit() {
+        this.pageSlice.sortingDataAccessor = this.sortingActivoData;
+
+        this.pageSlice.paginator = this._paginator;
+    }
+
+    formatCurrency(amount: number, currencySymbol: string): string {
+        return `${currencySymbol}${amount.toFixed(2)}`;
+    }
+
+    ngOnDestroy() {
+
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    formFiltros() {
+        this.filtroListaClienteForm = this._formBuilder.group({
+            dni: ['', Validators.required],
+            nombreCliente: [''],
+            apellidoCliente: [''],
+            telefono: [''],
+            correo: [''],
+
+        });
  
-  trackByFn(index: number, item: any): any {
-      return item.id || index;
-  }
+        this.filtroFechaForm = this._formBuilder.group({
+            fechaInicio: ['', Validators.required],
+            fechaFin: ['', Validators.required],
 
-  sortingActivoData = (data: any, sortHeaderId: string) => {
-      return this._toolService.sortingActivoData(data, sortHeaderId);
-  };
+        });
 
-  onPageChange(event: any): void {
-      const startIndex = event.pageIndex * event.pageSize;
-      let endIndex = startIndex + event.pageSize;
-      if (endIndex > this.allIngresosDataSource.data.length) {
-          endIndex = this.allIngresosDataSource.data.length;
-      }
+    }
 
-      this.pageSlice.data = this.allIngresosDataSource.data.slice(startIndex, endIndex);
-  }
+    trackByFn(index: number, item: any): any {
+        return item.id || index;
+    }
 
-  setPageSlice(data) {
-      this.pageSlice.data = data.slice(Numeracion.Cero, Numeracion.Diez);
-      if (this._paginator) {
-          this._paginator.pageIndex = Numeracion.Cero;
-          this._paginator.pageSize = Numeracion.Diez;
-      }
-  }
+    sortingActivoData = (data: any, sortHeaderId: string) => {
+        return this._toolService.sortingActivoData(data, sortHeaderId);
+    };
 
-  isMobilSize(): boolean {
-      return this._toolService.isMobilSize();
-  }
+
+    setPageSlice(data) {
+        this.pageSlice.data = data.slice(Numeracion.Cero, Numeracion.Diez);
+        if (this._paginator) {
+            this._paginator.pageIndex = Numeracion.Cero;
+            this._paginator.pageSize = Numeracion.Diez;
+        }
+    }
+
+    setPageSlicePersona(data) {
+        this.pageSlicePersona.data = data.slice(Numeracion.Cero, Numeracion.Diez);
+        if (this._paginator) {
+            this._paginator.pageIndex = Numeracion.Cero;
+            this._paginator.pageSize = Numeracion.Diez;
+        }
+    }
+
+    isMobilSize(): boolean {
+        return this._toolService.isMobilSize();
+    }
+
+    btnBuscar() {
+
+        if(!this.filtroListaClienteForm.valid){return;}
+
+        this.GetClienteByDNIAsync();
+    }
+
+    btnBuscarHabitaciones() {
+
+     
+
+        this.GetCatalogoHabitacionesAsync();
+    }
  
+    GetClienteByDNIAsync() {
+   
+        const txtDNI = this.filtroListaClienteForm.get('dni').value;
+
+        this._reservaService.ObtenerClienteXDNIAsync(txtDNI).subscribe((response: ObtenerClientePorDNIDTO) => {
+          
+            // this.all.data = response;
+             if(response){
+                this.filtroListaClienteForm.get('nombreCliente').setValue(response.nomCliente);
+                this.filtroListaClienteForm.get('apellidoCliente').setValue(response.apeCliente);
+                this.filtroListaClienteForm.get('telefono').setValue(response.telefonoCliente);
+                this.filtroListaClienteForm.get('correo').setValue(response.correoCliente);
+                this.pageSlicePersona.data.push(response);
+          
+                this.setPageSlicePersona(this.pageSlicePersona.data);
+                this.disabledBuscar = Flags.False;
+                return;
+             }
+
+          
+             this.filtroListaClienteForm.get('nombreCliente').setValue('');
+             this.filtroListaClienteForm.get('apellidoCliente').setValue('');
+             this.filtroListaClienteForm.get('telefono').setValue('');
+             this.filtroListaClienteForm.get('correo').setValue('');
+             this.pageSlicePersona.data = [];
+             this.clienteDetalleDataSource.data = [];
+             this._toolService.showWarning('No se encontró el cliente con el DNI ingresado', 'Advertencia')
+
+
+        }, err => {
+            this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
+            this.disabledBuscar = Flags.False;
+            console.log(err);
+
+        });
+    }
+
+    GetCatalogoHabitacionesAsync() {
+        this._reservaService.ObtenerCalogoHabitacionesAsync().subscribe((response: ObtenerCatalogoHabitacionesDTO[]) => {
+
+            this.pageSlice.data =response;
+            if (this.pageSlice.data.length > Numeracion.Cero) {
+                this.setPageSlice(this.pageSlice.data);
+                this.disabledBuscar = Flags.False;
+               
+                return;
+            }
+        
+            this.disabledBuscar = Flags.False;
+ 
+        }, err => {
+            this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
+            this.disabledBuscar = Flags.False;
+            console.log(err);
+
+        });
+    }
+
 }

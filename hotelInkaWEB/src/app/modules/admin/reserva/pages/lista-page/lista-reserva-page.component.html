@@ -3,130 +3,240 @@
         <!-- Title and action buttons -->
         <div class="flex items-center justify-between w-full">
             <div>
-                <h2 class="text-2xl md:text-3xl font-semibold tracking-tight leading-8">Reserva > Lista
-                </h2>
-                <div class="font-medium tracking-tight text-secondary">Gestión de reservas</div>
+                <h2 class="text-3xl font-semibold tracking-tight leading-8">Huespeda</h2>
+                <div class="font-medium tracking-tight text-secondary">Búsqueda de huesped</div>
             </div>
             <div class="flex items-center ml-6">
+                <!-- <button  [disabled]="isCallingService"  (click)="onShowFormRegistrarDeudaDialog()" class="hidden sm:inline-flex ml-3" mat-flat-button
+                    [color]="'primary'">
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                    <span class="ml-2">Nueva deuda</span>
+                </button> -->
 
-
+                <!-- Actions menu (visible on xs) -->
+                <div class="sm:hidden">
+                    <button [matMenuTriggerFor]="actionsMenu" mat-icon-button>
+                        <mat-icon [svgIcon]="'heroicons_mini:ellipsis-vertical'"></mat-icon>
+                    </button>
+                    <mat-menu #actionsMenu="matMenu">
+                        <button mat-menu-item (click)="onShowFormRegistrarDeudaDialog()">Nueva deuda</button>
+                    </mat-menu>
+                </div>
             </div>
         </div>
-        <div class="w-full mt-4">
-            <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-6">
-                <!-- Tabla -->
-                <div class="xl:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="overflow-x-auto mx-6">
-                        <table class="w-full bg-transparent mb-3" mat-table matSort [dataSource]="pageSlice"
-                            [trackBy]="trackByFn" #listaIngresoTable>
+        <div class="flex flex-col flex-auto h-140 dark:bg-default  m-4">
+            <form [formGroup]="filtroListaClienteForm" class="flex flex-col px-6">
+                <div class="flex flex-col w-full max-w-xs">
 
-                            <!-- id -->
-                            <ng-container matColumnDef="id">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Id</th>
-                                <td mat-cell *matCellDef="let catalogo">
-                                    <span class="flex items-center">
-                                        <span class="ml-3 leading-4">{{catalogo.idHabitacion}}</span>
-                                    </span>
-                                </td>
-                            </ng-container>
+                    <!-- DNI -->
+                    <mat-form-field class="w-full">
+                        <input appTwoDigitDecimaNumber matInput formControlName="dni" maxlength="8" placeholder="DNI">
+                    </mat-form-field>
 
-                            <!-- Número Habitación -->
-                            <ng-container matColumnDef="numHabitacion">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Número de Habitación</th>
-                                <td mat-cell *matCellDef="let catalogo">
-                                    <span class="flex items-center">
-                                        <span class="ml-3 leading-4">{{catalogo.numHabitacion}}</span>
-                                    </span>
-                                </td>
-                            </ng-container>
+                    <!-- Nombre Cliente -->
+                    <mat-form-field class="w-full">
+                        <input matInput formControlName="nombreCliente" maxlength="8" placeholder="Nombre Cliente"
+                            [readonly]="true">
+                    </mat-form-field>
 
-                            <!-- Tipo de Habitación -->
-                            <ng-container matColumnDef="tipoHabitacion">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Tipo de habitación</th>
-                                <td mat-cell *matCellDef="let catalogo" style="min-width: 180px">
-                                    <span class="ml-3 leading-4">{{catalogo.tipoHabitacion}}</span>
-                                </td>
-                            </ng-container>
+                    <!-- Apellido Cliente -->
+                    <mat-form-field class="w-full">
+                        <input matInput formControlName="apellidoCliente" maxlength="8" placeholder="Apellido Cliente"
+                            [readonly]="true">
+                    </mat-form-field>
 
-                            <!-- Capacidad -->
-                            <ng-container matColumnDef="capacidad">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Capacidad</th>
-                                <td mat-cell *matCellDef="let catalogo" style="min-width: 180px">
-                                    <span class="ml-3 leading-4">{{catalogo.capacidad}}</span>
-                                </td>
-                            </ng-container>
+                    <!-- Telefono -->
+                    <mat-form-field class="w-full">
+                        <input matInput formControlName="telefono" maxlength="8" placeholder="Telefono"
+                            [readonly]="true">
+                    </mat-form-field>
 
-                            <!-- Precio por Noche -->
-                            <ng-container matColumnDef="precioxNoche">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Precio por Noche</th>
-                                <td mat-cell *matCellDef="let catalogo" style="min-width: 180px">
-                                    <span class="ml-3 leading-4">{{catalogo.precioxNoche}}</span>
-                                </td>
-                            </ng-container>
-
-                            <!-- Descripción Habitacion -->
-                            <ng-container matColumnDef="descripcionHabitacion">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Descripción Habitacion</th>
-                                <td mat-cell *matCellDef="let catalogo" style="min-width: 180px">
-                                    <span class="ml-3 leading-4">{{catalogo.descripcionHabitacion}}</span>
-                                </td>
-                            </ng-container>
-
-                            <!-- Estado de Habitación -->
-                            <ng-container matColumnDef="estadoHabitacion">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Estado de Habitación</th>
-                                <td mat-cell *matCellDef="let catalogo" style="min-width: 180px">
-                                    <span class="ml-3 leading-4">{{catalogo.estadoHabitacion}}</span>
-                                </td>
-                            </ng-container>
+                    <!-- Correo -->
+                    <mat-form-field class="w-full">
+                        <input matInput formControlName="correo" maxlength="8" placeholder="Correo" [readonly]="true">
+                    </mat-form-field>
 
 
-                            <!-- Activar/Desactivar -->
-                            <ng-container matColumnDef="activarDesactivar">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
-                                <td mat-cell *matCellDef="let ingreso">
-                                    <mat-slide-toggle [checked]="ingreso.activo" color="primary"
-                                        (change)="UpdateActivoIngresoAsync(ingreso, $event.checked)">
-                                    </mat-slide-toggle>
-                                </td>
-                            </ng-container>
+                    <button class="w-auto sm:w-48 mt-2 sm:mt-0 sm:ml-4 " mat-flat-button [color]="'accent'"
+                        type="button" (click)="btnBuscar()" [disabled]="filtroListaClienteForm.invalid">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
+                        <span class="ml-2">
+                            Buscar Cliente
+                        </span>
+                    </button>
 
-                            <!-- Acciones -->
-                            <ng-container matColumnDef="acciones">
-                                <th mat-header-cell mat-sort-header *matHeaderCellDef>Acciones</th>
-                                <td mat-cell *matCellDef="let element">
-                                    <div class="flex">
-                                        <button mat-icon-button color="accent"
-                                            (click)="onShowFormDetalleIngreso(element)" class="p-1"
-                                            [disabled]="disabledAcciones">
-                                            <mat-icon svgIcon="feather:eye"></mat-icon>
-                                        </button>
-                                        <button mat-icon-button color="primary" class="p-1"
-                                            [disabled]="disabledAcciones"
-                                            (click)="onShowFormModificarIngresoDialog(element)">
-                                            <mat-icon svgIcon="feather:edit-2"></mat-icon>
-                                        </button>
-                                        <button mat-icon-button color="warn" class="p-1" [disabled]="disabledAcciones"
-                                            (click)="AnulaAsync(element)">
-                                            <mat-icon svgIcon="feather:trash-2"></mat-icon>
-                                        </button>
-                                    </div>
-                                </td>
-                            </ng-container>
+                </div>
+            </form>
 
-                            <tr mat-header-row *matHeaderRowDef="catalogoTableColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: catalogoTableColumns;"></tr>
-                        </table>
-                    </div>
-                    <div class="paginator" *ngIf="allIngresosDataSource.data.length > 0">
-                        <mat-paginator #paginator [length]="allIngresosDataSource.data.length" [pageSize]="10"
-                            [pageSizeOptions]="[10, 50, 100]" aria-label="Seleccione página"
-                            (page)="onPageChange($event)">
-                        </mat-paginator>
-                    </div>
-                    <div class="paginator" *ngIf="allIngresosDataSource.data.length === 0">
-                        <p class="text-center">{{textoResultadoTable}}</p>
-                    </div>
+            <div class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2">
+                <div class="overflow-x-auto mx-2"> <!-- Reducir margen horizontal -->
+                    <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSlicePersona"
+                        [trackBy]="trackByFn" #listaCatalogoHabitacionesTable> <!-- Reducir tamaño de fuente -->
+
+                        <!-- Tipo de Habitacion -->
+                        <ng-container matColumnDef="tipoHabitacion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Tipo de Habitación
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1"> <!-- Reducir padding -->
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.tipoHabitacion}}</span> <!-- Reducir margin left -->
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Descripcion -->
+                        <ng-container matColumnDef="descripcion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Descripción
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.descripcion}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- CapHabitacion -->
+                        <ng-container matColumnDef="capHabitacion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Capacidad
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.capHabitacion}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="catalogoTableColumns"></tr>
+                        <tr class="order-row h-2" mat-row *matRowDef="let row; columns: catalogoTableColumns;"></tr>
+                        <!-- Reducir height -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col flex-auto h-full dark:bg-default  m-4">
+            <form [formGroup]="filtroFechaForm" class="flex flex-col px-6">
+                <div class="flex flex-col w-full max-w-xs">
+
+                    <!-- Fecha De Ingreso -->
+                    <mat-form-field class="w-full"  >
+                        <mat-label>Fecha inicio </mat-label>
+                        <input matInput appTwoDigitDecimaNumber formControlName="fechaInicio"
+                            [matDatetimepicker]="fechaInicio" autocomplete="off" class="text-sm h-8 p-1" />
+                        <mat-datetimepicker-toggle matSuffix [for]="fechaInicio"></mat-datetimepicker-toggle>
+                        <mat-datetimepicker #fechaInicio type="datetime" openOnFocus="true"
+                            timeInterval="5"></mat-datetimepicker>
+                  
+                    </mat-form-field>
+
+                    <!-- Fecha De Salida -->
+                    <mat-form-field class="w-full"  >
+                        <mat-label>Fecha fin </mat-label>
+                        <input matInput appTwoDigitDecimaNumber formControlName="fechaFin"
+                            [matDatetimepicker]="fechaFin" autocomplete="off" class="text-sm h-8 p-1" />
+                        <mat-datetimepicker-toggle matSuffix [for]="fechaFin"></mat-datetimepicker-toggle>
+                        <mat-datetimepicker #fechaFin type="datetime" openOnFocus="true"
+                            timeInterval="5"></mat-datetimepicker>
+    
+                    </mat-form-field>
+
+                    <button class="w-auto sm:w-48 mt-2 sm:mt-0 sm:ml-4 " mat-flat-button [color]="'accent'"
+                        type="button" (click)="btnBuscarHabitaciones()">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
+                        <span class="ml-2">
+                            Buscar Habitaciones
+                        </span>
+                    </button>
+
+                </div>
+            </form>
+
+            <div
+                class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2 table-container">
+                <div class="overflow-x-auto mx-2"> <!-- Reducir margen horizontal -->
+                    <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSlice"
+                        [trackBy]="trackByFn" #listaCatalogoHabitacionesTable> <!-- Reducir tamaño de fuente -->
+
+                        <!-- Número Habitación -->
+                        <ng-container matColumnDef="numHabitacion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Número Habitación
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1"> <!-- Reducir padding -->
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.numHabitacion}}</span> <!-- Reducir margin left -->
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Tipo Habitación -->
+                        <ng-container matColumnDef="tipoHabitacion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Tipo Habitación
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.tipoHabitacion}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Capacidad -->
+                        <ng-container matColumnDef="capacidad">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Capacidad
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.capacidad}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- PrecioxNoche -->
+                        <ng-container matColumnDef="precioxNoche">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                PrecioxNoche
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.precioxNoche}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- DescripcionHabitacion -->
+                        <ng-container matColumnDef="descripcionHabitacion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Descripción Habitación
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.descripcionHabitacion}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- estadoHabitacion -->
+                        <ng-container matColumnDef="estadoHabitacion">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Estado Habitación
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.estadoHabitacion}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="catalogoHabitacionesTableColumns"></tr>
+                        <tr class="order-row h-2" mat-row
+                            *matRowDef="let row; columns: catalogoHabitacionesTableColumns;"></tr>
+                        <!-- Reducir height -->
+                    </table>
                 </div>
             </div>
         </div>

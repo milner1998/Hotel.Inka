@@ -1,0 +1,15 @@
+/* Reducir padding de las celdas */
+.mat-cell, .mat-header-cell {
+    padding: 0.5rem 0.25rem; /* Ajusta según sea necesario */
+}
+
+/* Reducir la altura de las filas */
+.mat-row, .mat-header-row {
+    height: 1.5rem; /* Ajusta según sea necesario */
+}
+
+/* Limitar la altura máxima de la tabla y añadir scroll si es necesario */
+.table-container {
+    max-height: 300px; /* Ajusta el valor según el espacio disponible */
+    overflow-y: auto;
+}
