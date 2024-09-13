@@ -27,7 +27,7 @@ namespace HOTELINKA.DTO.Reserva.Response
 
     public string correoCliente { get; set; }
     [SwaggerSchema("Numero de la habitacion")]
-    [JsonPropertyName("nroHabitacion")]
+    [JsonPropertyName("tipoHabitacion")]
         public string TipoHabitacion { get; set; }
 
     [SwaggerSchema("Descripcion de la habitacion")]
