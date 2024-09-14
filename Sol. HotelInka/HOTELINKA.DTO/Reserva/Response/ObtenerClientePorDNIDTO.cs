@@ -5,8 +5,11 @@ namespace HOTELINKA.DTO.Reserva.Response
 {
     public class ObtenerClientePorDNIDTO
     {
+        [SwaggerSchema("Id Del Huesped")]
+        [JsonPropertyName("idHuesped")]
+        public int IdHuesped { get; set; }
 
-    [SwaggerSchema("Dni del cliente")]
+        [SwaggerSchema("Dni del cliente")]
     [JsonPropertyName("DNI_CLIENTE")]
         public string dniCliente { get; set; }
 

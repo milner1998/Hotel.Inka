@@ -56,6 +56,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
 
             CreateMap<Huesped, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
             {
+                dst.IdHuesped = src.ID_HUESPED;
                 dst.dniCliente = src.DNI_CLIENTE;
                 dst.NomCliente = src.NOMBRE_CLIENTE;
                 dst.ApeCliente = src.APELLIDO_CLIENTE.Trim();
