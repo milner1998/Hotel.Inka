@@ -12,7 +12,9 @@ namespace HOTELINKA.DOMAIN.Interface
 
         Task<Reserva> AddReservaAsync(Reserva reserva);
 
-        Task<Reserva> GetClienteByDNI(string dni);
+        Task<Huesped> GetClienteByDNI(string dni);
+
+        Task<List<Reserva>> GetReservasxCliente(int idhuesped);
 
         Task<OrdenDeHospedaje> AddOrdenHospedajeAsync(OrdenDeHospedaje ordenDeHospedaje);
 

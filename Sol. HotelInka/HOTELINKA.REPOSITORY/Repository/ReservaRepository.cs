@@ -23,10 +23,16 @@ namespace HOTELINKA.REPOSITORY.Repository
             return reserva;
         }
 
-        public async Task<Reserva> GetClienteByDNI(string dni)
+        public async Task<Huesped> GetClienteByDNI(string dni)
         {
-            return await All<Reserva>().AsNoTracking()
-                .Where(reserva => reserva.DNI_CLIENTE == dni).FirstOrDefaultAsync();
+            return await All<Huesped>().AsNoTracking()
+                .Where(huesped => huesped.DNI_CLIENTE == dni).FirstOrDefaultAsync();
+                
+        }
+        public async Task<List<Reserva>> GetReservasxCliente(int idhuesped)
+        {
+            return await All<Reserva>()
+            .Where(r => r.ID_HUESPED == idhuesped && r.ESTADO_RESERVA == "PAGADO").ToListAsync(); ;
         }
 
 

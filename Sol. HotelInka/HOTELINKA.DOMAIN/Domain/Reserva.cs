@@ -6,15 +6,7 @@ namespace HOTELINKA.DOMAIN.Domain
     {
         public int ID_RESERVA { get; set; }
 
-        public string DNI_CLIENTE { get; set; }
-
-        public string NOMBRE_CLIENTE { get; set; }
-
-        public string APELLIDO_CLIENTE { get; set; }
-
-        public string CORREO_ELECTRONICO { get; set; }
-
-        public string TELEFONO_CLIENTE { get; set; }
+        public int ID_HUESPED { get; set; }
 
         public DateTime FECHA_INGRESO { get; set; }
 

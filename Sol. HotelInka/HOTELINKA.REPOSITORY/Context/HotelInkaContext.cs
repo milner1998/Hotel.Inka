@@ -16,6 +16,8 @@ namespace HOTELINKA.REPOSITORY.Context
 
         public DbSet<OrdenDeHospedaje> OrdenDeHospedaje { get; set; }
 
+        public DbSet<Huesped> Huesped { get; set; }
+
         #endregion 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,6 +32,9 @@ namespace HOTELINKA.REPOSITORY.Context
 
             builder.Entity<OrdenDeHospedaje>()
                 .HasKey(o => new { o.Id_OrdenDeHospedaje });
+
+            builder.Entity<Huesped>()
+   .             HasKey(o => new { o.ID_HUESPED });
 
 
             DbSeed(builder);

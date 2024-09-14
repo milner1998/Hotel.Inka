@@ -12,14 +12,14 @@ namespace HOTELINKA.EXTENSIONS.Mapper
         {
             CreateMap<RegistrarReservaRequest, Reserva>().AfterMap((src, dst) =>
             {
-                dst.DNI_CLIENTE = src.DniCliente;
+                /*dst.DNI_CLIENTE = src.DniCliente;
                 dst.NOMBRE_CLIENTE = src.NombreCliente;
                 dst.APELLIDO_CLIENTE = src.ApellidoCliente.Trim();
                 dst.CORREO_ELECTRONICO = src.CorreoElectronico.Trim() ?? string.Empty;
-                dst.TELEFONO_CLIENTE = src.TelefonoCliente;
+                dst.TELEFONO_CLIENTE = src.TelefonoCliente;*/
                 dst.FECHA_INGRESO = DateTime.UtcNow;
                 dst.FECHA_SALIDA  = DateTime.UtcNow;
-                dst.ESTADO_RESERVA = "Activo";
+                dst.ESTADO_RESERVA = "Pagado";
             });
 
             CreateMap<Reserva, ResponseDTO>().AfterMap((src, dst) =>
@@ -29,6 +29,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.Message = "Su reserva ha sido generada correctamente";
                 dst.Id = src.ID_RESERVA;
             });
+
             CreateMap<CatalogoHabitaciones, ObtenerCalogoHabitacionesDTO>().AfterMap((src, dst) =>
             {
                 dst.id_Habitacion = src.ID_HABITACION;
@@ -40,17 +41,26 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.ESTADO_HABITACION = "Disponible";
             });
 
+            CreateMap<Reserva, ObtenerReservaxDNI>().AfterMap((src, dst) =>
+            {
+                dst.IdReserva = src.ID_RESERVA;
+                dst.IdHuesped = src.ID_HUESPED;
+                dst.FechaIngreso = src.FECHA_INGRESO;
+                dst.FechaSalida = src.FECHA_SALIDA;
+                dst.TipoHabiracion = src.TIPOHABITACION;
+                dst.Descripcion = src.DESCRIPCION;
+                dst.Capacidad = src.CAPACIDAD;
+                dst.EstadoHabitacion = src.ESTADO_RESERVA;
+            });
 
-            CreateMap<Reserva, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
+
+            CreateMap<Huesped, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
             {
                 dst.dniCliente = src.DNI_CLIENTE;
                 dst.NomCliente = src.NOMBRE_CLIENTE;
                 dst.ApeCliente = src.APELLIDO_CLIENTE.Trim();
                 dst.telefonoCliente = src.TELEFONO_CLIENTE;
                 dst.correoCliente = src.CORREO_ELECTRONICO.Trim() ?? string.Empty;
-                dst.TipoHabitacion = src.TIPOHABITACION;
-                dst.Descripcion = src.DESCRIPCION;
-                dst.Capacidad = src.CAPACIDAD;
             });
 
            CreateMap<RegistrarOrdenHospedaje, OrdenDeHospedaje>().AfterMap((src, dst) =>
