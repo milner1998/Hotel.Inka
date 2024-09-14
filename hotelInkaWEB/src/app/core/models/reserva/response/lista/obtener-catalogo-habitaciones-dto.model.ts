@@ -1,5 +1,4 @@
 export interface ObtenerCatalogoHabitacionesDTO {
-
     idHabitacion: number;
     numHabitacion: string;
     tipoHabitacion: string;

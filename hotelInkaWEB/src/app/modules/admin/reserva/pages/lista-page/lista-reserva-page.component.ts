@@ -10,6 +10,8 @@ import { DictionaryErrors } from 'app/core/resource/dictionaryError.constants';
 import { ToolService } from 'app/core/services/tool/tool.service';
 import { ReservaService } from 'app/core/services/reserva/reserva.service';
 import { ObtenerClientePorDNIDTO } from 'app/core/models/reserva/response/lista/obtener-cliente-por-dni-dto.model';
+import moment from 'moment';
+import { ObtenerReservaxDNI } from 'app/core/models/reserva/response/lista/obtener-reserva-por-dni-dto.model';
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -20,11 +22,14 @@ import { ObtenerClientePorDNIDTO } from 'app/core/models/reserva/response/lista/
 })
 export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    minDate = moment(new Date()).format('YYYY-MM-DD')
+    maxDate = moment("2024-12-31").format('YYYY-MM-DD') 
     public allCatalogoHabitacionesDataSource: ObtenerCatalogoHabitacionesDTO[];
 
-    public disabledBtnNuevo: boolean = false;g
+    public disabledBtnNuevo: boolean = false;
     public disabledAcciones: boolean = false;
     public disabledBuscar: boolean = false;
+    public tieneDatos: boolean = false;
 
     public textoResultadoTable: string = "";
 
@@ -38,7 +43,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     filtroListaClienteForm: UntypedFormGroup;
     filtroFechaForm: UntypedFormGroup;
  
-    public pageSlicePersona: MatTableDataSource<ObtenerClientePorDNIDTO> = new MatTableDataSource();
+    public pageSlicePersona: MatTableDataSource<ObtenerReservaxDNI> = new MatTableDataSource();
      
     public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
     
@@ -53,10 +58,11 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngOnInit() {
+     
         this.formFiltros();
 
     }
-
+ 
     onShowFormRegistrarDeudaDialog() {
         this.isCallingService = Flags.True;
     }
@@ -131,10 +137,19 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         this.GetClienteByDNIAsync();
     }
 
+    btnLimpiar() {
+        this.filtroListaClienteForm.get('dni').setValue('');
+        this.filtroListaClienteForm.get('nombreCliente').setValue('');
+        this.filtroListaClienteForm.get('apellidoCliente').setValue('');
+        this.filtroListaClienteForm.get('telefono').setValue('');
+        this.filtroListaClienteForm.get('correo').setValue('');
+        this.pageSlicePersona.data = [];
+        this.pageSlice.data = [];
+        this.clienteDetalleDataSource.data = [];
+        this.tieneDatos = false;
+    }
+
     btnBuscarHabitaciones() {
-
-     
-
         this.GetCatalogoHabitacionesAsync();
     }
  
@@ -143,21 +158,21 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         const txtDNI = this.filtroListaClienteForm.get('dni').value;
 
         this._reservaService.ObtenerClienteXDNIAsync(txtDNI).subscribe((response: ObtenerClientePorDNIDTO) => {
-          
-            // this.all.data = response;
+  
              if(response){
+                this.tieneDatos = true;
                 this.filtroListaClienteForm.get('nombreCliente').setValue(response.nomCliente);
                 this.filtroListaClienteForm.get('apellidoCliente').setValue(response.apeCliente);
                 this.filtroListaClienteForm.get('telefono').setValue(response.telefonoCliente);
                 this.filtroListaClienteForm.get('correo').setValue(response.correoCliente);
-                this.pageSlicePersona.data.push(response);
+                this.GetReservaByDNIAsync(response.idHuesped)
+                // this.pageSlicePersona.data.push(response);
           
-                this.setPageSlicePersona(this.pageSlicePersona.data);
-                this.disabledBuscar = Flags.False;
+                // this.setPageSlicePersona(this.pageSlicePersona.data);
+                // this.disabledBuscar = Flags.False;
                 return;
              }
-
-          
+             this.tieneDatos = false;
              this.filtroListaClienteForm.get('nombreCliente').setValue('');
              this.filtroListaClienteForm.get('apellidoCliente').setValue('');
              this.filtroListaClienteForm.get('telefono').setValue('');
@@ -165,8 +180,25 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
              this.pageSlicePersona.data = [];
              this.clienteDetalleDataSource.data = [];
              this._toolService.showWarning('No se encontró el cliente con el DNI ingresado', 'Advertencia')
+ 
+        }, err => {
+            this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
+            this.disabledBuscar = Flags.False;
+            console.log(err);
 
+        });
+    }
 
+    GetReservaByDNIAsync(idCliente: number) {
+   
+        this._reservaService.ObtenerReservaDNIAsync(idCliente).subscribe((response: ObtenerReservaxDNI[]) => {
+             if(response){
+ 
+                this.setPageSlicePersona(response);
+                this.disabledBuscar = Flags.False;
+                return;
+             }
+ 
         }, err => {
             this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
             this.disabledBuscar = Flags.False;
