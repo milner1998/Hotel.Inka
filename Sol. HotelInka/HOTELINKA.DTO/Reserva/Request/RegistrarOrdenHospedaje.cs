@@ -11,35 +11,35 @@ namespace HOTELINKA.DTO.Reserva.Request
     public class RegistrarOrdenHospedaje
     {
         [JsonPropertyName("idOrdenHospedaje")]
-        [SwaggerSchema("Documento de identidad del cliente")]
+        [SwaggerSchema("idorden")]
         public int IdOrdenHodepaje { get; set; }
 
         [JsonPropertyName("idReserva")]
-        [SwaggerSchema("Nombre del cliente.")]
+        [SwaggerSchema("idreserva")]
         public int IdReserva{ get; set; }
 
         [JsonPropertyName("idHuesped")]
-        [SwaggerSchema("Apellido del cliente.")]
+        [SwaggerSchema("idhuesped")]
         public int IdHuesped { get; set; }
 
         [JsonPropertyName("idHabitacion")]
-        [SwaggerSchema("Correo Electronico del cliente.")]
+        [SwaggerSchema("idHabtiacion")]
         public int IdHabitacion { get; set; }
 
         [JsonPropertyName("fechaInicio")]
-        [SwaggerSchema("Telefono del cliente.")]
+        [SwaggerSchema("FechaInicio")]
         public DateTime FechaInicio { get; set; }
 
         [JsonPropertyName("fechaFin")]
-        [SwaggerSchema("Fecha ingreso de la reserva.")]
+        [SwaggerSchema("fechSalida.")]
         public DateTime FechaFin { get; set; }
 
         [JsonPropertyName("totalPago")]
-        [SwaggerSchema("Fecha salida de la reserva.")]
+        [SwaggerSchema("totalPago")]
         public decimal TotalPago { get; set; }
 
         [SwaggerSchema("EstadodelaOrdenHospedaje")]
-        [JsonPropertyName("estadoHabitacion")]
+        [JsonPropertyName("estadoOrden")]
         public string EstadoOrdenHospedaje { get; set; }
     }
 }
