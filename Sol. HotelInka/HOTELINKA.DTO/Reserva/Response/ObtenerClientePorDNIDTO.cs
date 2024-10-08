@@ -10,25 +10,25 @@ namespace HOTELINKA.DTO.Reserva.Response
         public int IdHuesped { get; set; }
 
         [SwaggerSchema("Dni del cliente")]
-    [JsonPropertyName("DNI_CLIENTE")]
+        [JsonPropertyName("DNI_CLIENTE")]
         public string dniCliente { get; set; }
 
-    [SwaggerSchema("Nombre")]
-    [JsonPropertyName("nomCliente")]
+        [SwaggerSchema("Nombre")]
+        [JsonPropertyName("nomCliente")]
         public string NomCliente { get; set; }
 
-    [SwaggerSchema("Apellido")]
-    [JsonPropertyName("apeCliente")]
+        [SwaggerSchema("Apellido")]
+        [JsonPropertyName("apeCliente")]
         public string ApeCliente { get; set; }
 
-    [SwaggerSchema("Telefono")]
-    [JsonPropertyName("telefonoCliente")]
+        [SwaggerSchema("Telefono")]
+        [JsonPropertyName("telefonoCliente")]
         public string telefonoCliente { get; set; }
 
-    [SwaggerSchema("Correo")]
-    [JsonPropertyName("correoCliente")]
+        [SwaggerSchema("Correo")]
+        [JsonPropertyName("correoCliente")]
 
-    public string correoCliente { get; set; }
+        public string correoCliente { get; set; }
 
     }
 }

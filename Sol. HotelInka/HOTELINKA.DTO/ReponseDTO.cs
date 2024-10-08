@@ -56,7 +56,7 @@ namespace HOTELINKA.DTO
     {
         [SwaggerSchema("Identificador de la entidad")]
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [SwaggerSchema("Identificador del usuario")]
         [JsonPropertyName("idUsuario")]

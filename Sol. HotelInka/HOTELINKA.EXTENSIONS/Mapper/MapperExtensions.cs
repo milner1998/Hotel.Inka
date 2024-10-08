@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HOTELINKA.DOMAIN.Domain;
+using HOTELINKA.DOMAIN.VO;
 using HOTELINKA.DTO;
 using HOTELINKA.DTO.Reserva.Request;
 using HOTELINKA.DTO.Reserva.Response;
@@ -54,7 +55,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
             });
 
 
-            CreateMap<Huesped, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
+            /*CreateMap<Huesped, ObtenerClientePorDNIDTO>().AfterMap((src, dst) =>
             {
                 dst.IdHuesped = src.ID_HUESPED;
                 dst.dniCliente = src.DNI_CLIENTE;
@@ -62,25 +63,44 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.ApeCliente = src.APELLIDO_CLIENTE.Trim();
                 dst.telefonoCliente = src.TELEFONO_CLIENTE;
                 dst.correoCliente = src.CORREO_ELECTRONICO.Trim() ?? string.Empty;
-            });
+            });*/
 
-           CreateMap<RegistrarOrdenHospedaje, OrdenDeHospedaje>().AfterMap((src, dst) =>
+           CreateMap<RegistrarOrdenHospedaje, t01_orden_de_hospedaje>().AfterMap((src, dst) =>
             {
-                dst.Id_OrdenDeHospedaje = src.IdOrdenHodepaje;
+                dst.ID_ORDEN_HOSPEDAJE = src.IdOrdenHodepaje;
                 //dst.Id_Reserva = src.IdReserva;
                 //dst.Id_Habitacion = src.IdHabitacion;
-                dst.fecha_inicio = src.FechaInicio;
-                dst.fecha_fin = DateTime.UtcNow;
-                dst.Total_Pago = src.TotalPago;
-                dst.Estado_OrdenDeHospedaje = "Pen pago Caja";
+                dst.FECHA_INGRESO = src.FechaInicio;
+                dst.FECHA_SALIDA = DateTime.UtcNow;
+                //dst.Total_Pago = src.TotalPago;
+                dst.ESTADO = "Pen pago Caja";
             });
 
-            CreateMap<OrdenDeHospedaje, ResponseDTO>().AfterMap((src, dst) =>
+            CreateMap<t01_orden_de_hospedaje, ResponseDTO>().AfterMap((src, dst) =>
             {
                 dst.Success = true;
                 dst.TitleMessage = "Éxito";
                 dst.Message = "Su Orden De Hospedaje ha sido generada correctamente";
-                dst.Id = src.Id_OrdenDeHospedaje;
+                dst.Id = src.ID_ORDEN_HOSPEDAJE;
+            });
+
+            CreateMap<ConsultaHuespedDetalle, ObtenerOrdenHospedajeXDNI>().AfterMap((src, dst) =>
+            {
+                dst.NombreHuesped = src.NombreHuesped;
+                dst.ApellidoHuesped = src.ApellidoHuesped;
+                dst.NroOrdenHospedaje = src.NroOrdenHospedaje;
+                dst.FechaIngreso = src.FechaIngreso;
+                dst.FechaSalida = src.FechaSalida;
+                dst.NumeroHabitacion = src.NumeroHabitacion;
+                dst.TipoHabitacion = src.TipoHabitacion;
+            });
+
+            CreateMap<ConsultarCatalogoXTipo, ObtenerCatalogoXTipoDTO>().AfterMap((src, dst) =>
+            {
+                dst.idServicio = src.IdServicio;
+                dst.nombreServicio = src.NombreServicio;
+                dst.descripcionServicio = src.DescripcionServicio;
+                dst.precioServcio = src.PrecioServicio;
             });
 
             /*CreateMap<Reserva, ObtenerReservaDTO>().AfterMap((src, dst) =>

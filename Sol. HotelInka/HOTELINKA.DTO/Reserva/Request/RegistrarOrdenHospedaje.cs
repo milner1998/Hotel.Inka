@@ -12,7 +12,7 @@ namespace HOTELINKA.DTO.Reserva.Request
     {
         [JsonPropertyName("idOrdenHospedaje")]
         [SwaggerSchema("idorden")]
-        public int IdOrdenHodepaje { get; set; }
+        public string IdOrdenHodepaje { get; set; }
 
         [JsonPropertyName("idReserva")]
         [SwaggerSchema("idreserva")]

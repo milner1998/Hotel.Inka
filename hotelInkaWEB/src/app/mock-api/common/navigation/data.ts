@@ -3,7 +3,7 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'reserva',
-        title: 'Reserva',
+        title: 'Orden de Hospedaje',
         type: 'group',
         icon: 'heroicons_outline:banknotes',
         children: [
@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 export const compactNavigation: FuseNavigationItem[] = [
     {
         id: 'reserva',
-        title: 'Reserva',
+        title: 'Orden de Hospedaje',
         type: 'aside',
         icon: 'heroicons_outline:arrow-trending-down',
         children: []
@@ -30,7 +30,7 @@ export const compactNavigation: FuseNavigationItem[] = [
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
         id: 'reserva',
-        title: 'Reserva',
+        title: 'Orden de Hospedaje',
         type: 'aside',
         icon: 'heroicons_outline:arrow-trending-down',
        link: '/admin/reserva'

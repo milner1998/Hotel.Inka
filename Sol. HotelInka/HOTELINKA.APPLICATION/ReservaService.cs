@@ -50,7 +50,19 @@ namespace HOTELINKA.APPLICATION
         public async Task<ResponseDTO> AddOrdenHospedajeAsync(RegistrarOrdenHospedaje request)
         {
 
-            return _mapper.Map<ResponseDTO>(await _reservaRepository.AddOrdenHospedajeAsync(_mapper.Map<OrdenDeHospedaje>(request)));
+            return _mapper.Map<ResponseDTO>(await _reservaRepository.AddOrdenHospedajeAsync(_mapper.Map<t01_orden_de_hospedaje>(request)));
+        }
+        //Obtener orden de hospedaje por x dni del cliente
+        public async Task<ObtenerOrdenHospedajeXDNI> ObtenerOrdenHospedajeAsync(string DNI)
+        {
+
+            return _mapper.Map<ObtenerOrdenHospedajeXDNI>(await _reservaRepository.GetOrdenDeHospedajeXDNI(DNI));
+        }
+
+        public async Task<List<ObtenerCatalogoXTipoDTO>> ObtenerCatalogoXTipoAsync(int a)
+        {
+
+            return _mapper.Map<List<ObtenerCatalogoXTipoDTO>>(await _reservaRepository.GetObtenerCatalogoXTipo(a));
         }
 
         /*public async Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni)

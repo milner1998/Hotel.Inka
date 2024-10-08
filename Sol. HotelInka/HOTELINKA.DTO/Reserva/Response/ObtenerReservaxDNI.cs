@@ -14,7 +14,7 @@ namespace HOTELINKA.DTO.Reserva.Response
 
     [SwaggerSchema("identificador reserva")]
     [JsonPropertyName("idReserva")]
-    public int IdReserva { get; set; }
+    public string IdReserva { get; set; }
 
     [SwaggerSchema("Identificador del Huesped")]
     [JsonPropertyName("idHuesped")]
