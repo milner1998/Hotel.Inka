@@ -3,7 +3,7 @@
         <!-- Title and action buttons -->
         <div class="flex items-center justify-between w-full">
             <div>
-                <h2 class="text-3xl font-semibold tracking-tight leading-8">Datos de la Orden de Hospedaje</h2>
+                <h2 class="text-3xl font-semibold tracking-tight leading-8">Detalle de la orden de hospedaje</h2>
             </div>
             <div class="flex items-center ml-6">
                 <!-- <button  [disabled]="isCallingService"  (click)="onShowFormRegistrarDeudaDialog()" class="hidden sm:inline-flex ml-3" mat-flat-button
@@ -23,66 +23,86 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-2 w-full mt-4">
             <form [formGroup]="filtroListaClienteForm" class="flex flex-col px-6">
                 <div class="flex flex-col w-full max-w-xs">
 
                     <!-- DNI -->
                     <mat-form-field class="w-full">
-                        <input appTwoDigitDecimaNumber matInput formControlName="dni" maxlength="8" placeholder="DNI">
+                        <input maxlength="8" matInput formControlName="dni" maxlength="8" placeholder="DNI">
+                        <mat-error *ngIf="filtroListaClienteForm.get('dni').hasError('required')">DNI es
+                            requerido</mat-error>
+
+                        <mat-error *ngIf="filtroListaClienteForm.get('dni')?.hasError('onlyNumbersForm')">
+                            Solo debe ingresar caracteres números
+                        </mat-error>
+
                     </mat-form-field>
+
+                    @if (tieneDatos) {
+
 
                     <!-- Nombre Huesped -->
                     <mat-form-field class="w-full">
-                        <input matInput formControlName="nombreHuesped" maxlength="8" placeholder="Nombre Huesped"
-                            [readonly]="true">
+                        <mat-label>Nombre Huesped</mat-label>
+                        <input [disabled]="true" matInput formControlName="nombreHuesped" maxlength="8"
+                            placeholder="Nombre Huesped" [readonly]="true">
                     </mat-form-field>
 
                     <!-- Apellido Huesped -->
                     <mat-form-field class="w-full">
+                        <mat-label>Apellido Huesped</mat-label>
                         <input matInput formControlName="apellidoHuesped" maxlength="8" placeholder="Apellido Huesped"
                             [readonly]="true">
                     </mat-form-field>
 
                     <!-- Nro de Orden de Hospedaje -->
                     <mat-form-field class="w-full">
-                        <input matInput formControlName="nroOrdenHospedaje" maxlength="8" placeholder="Nro de Orden de Hospedaje"
-                            [readonly]="true">
+                        <mat-label>Nro de Orden de Hospedaje</mat-label>
+                        <input matInput formControlName="nroOrdenHospedaje" maxlength="8"
+                            placeholder="Nro de Orden de Hospedaje" [readonly]="true">
                     </mat-form-field>
 
                     <!-- Fecha de Ingreso -->
                     <mat-form-field class="w-full">
-                        <input matInput formControlName="fechaIngreso" maxlength="20" placeholder="Fecha de Ingreso al Hospedaje" [readonly]="true">
+                        <mat-label>Fecha de ingreso</mat-label>
+                        <input matInput formControlName="fechaIngreso" maxlength="20"
+                            placeholder="Fecha de Ingreso al Hospedaje" [readonly]="true">
                     </mat-form-field>
 
                     <!-- Fecha de Salida -->
                     <mat-form-field class="w-full">
-                        <input matInput formControlName="fechaSalida" maxlength="20" placeholder="Fecha de Salida al Hospedaje" [readonly]="true">
+                        <mat-label>Fecha de salida</mat-label>
+                        <input matInput formControlName="fechaSalida" maxlength="20"
+                            placeholder="Fecha de Salida al Hospedaje" [readonly]="true">
                     </mat-form-field>
-                    
+
                     <!-- Nro de Habitacion -->
                     <mat-form-field class="w-full">
-                        <input matInput formControlName="nroHabitacion" maxlength="10" placeholder="Nro de Habitacion" [readonly]="true">
+                        <mat-label>Nro de habitación</mat-label>
+                        <input matInput formControlName="nroHabitacion" maxlength="10" placeholder="Nro de Habitacion"
+                            [readonly]="true">
                     </mat-form-field>
-                    
+
                     <!-- Tipo de Habitacion -->
                     <mat-form-field class="w-full">
-                        <input matInput formControlName="tipoHabitacion" maxlength="10" placeholder="Tipo de Habitacion" [readonly]="true">
-                    </mat-form-field> 
+                        <mat-label>Tipo de habitación</mat-label>
+                        <input matInput formControlName="tipoHabitacion" maxlength="10" placeholder="Tipo de Habitacion"
+                            [readonly]="true">
+                    </mat-form-field>
 
+                    <!-- Tipo de Habitacion -->
                     <mat-form-field class="w-full">
                         <mat-label>Select un tipo de servicio</mat-label>
-                        <mat-select [(value)]="selected">
-                          <mat-option>None</mat-option>
-                          <mat-option value="option1">Option 1</mat-option>
-                          <mat-option value="option2">Option 2</mat-option>
-                          <mat-option value="option3">Option 3</mat-option>
+                        <mat-select [formControlName]="'tipoServicio'" placeholder="Tipo de Servicio"
+                            #selectTipoServicioItem (selectionChange)="onTipoServicioChange($event)">
+                            <mat-option *ngFor="let option of lstTipoServicio" [value]="option">
+                                {{ option.tipoServicio }}
+                            </mat-option>
                         </mat-select>
-                      </mat-form-field>
-                      
-                      <p>You selected: {{selected}}</p>
-
+                    </mat-form-field>
+                    }
                     <button class="w-auto sm:w-48 sm:ml-4 m-2" mat-flat-button [color]="'primary'" type="button"
                         (click)="btnBuscar()" [disabled]="filtroListaClienteForm.invalid">
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
@@ -101,9 +121,11 @@
 
                 </div>
             </form>
-              
 
-            <div class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2 table-container">
+            @if (tieneDatos) {
+
+            <div
+                class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2 table-container">
                 <div class="overflow-x-auto mx-2"> <!-- Reducir margen horizontal -->
                     <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSlicePersona"
                         [trackBy]="trackByFn" #listaCatalogoHabitacionesTable> <!-- Reducir tamaño de fuente -->
@@ -151,8 +173,31 @@
                             </th>
                             <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                 <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.precioxNoche}}</span>
+                                    <span class="ml-2">{{detalle.precioServicio}}</span>
                                 </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Seleccione -->
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
+                                Seleccione
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <button mat-button color="primary" (click)="onSeleccionar(detalle)">
+                                    Seleccionar
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <!-- Comentario -->
+                        <ng-container matColumnDef="comentario">
+                            <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
+                                Comentario
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <input matInput [(ngModel)]="detalle.precioServicio"
+                                    placeholder="Ingrese un comentario">
                             </td>
                         </ng-container>
 
@@ -162,131 +207,64 @@
                     </table>
                 </div>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-2 w-full mt-4">
-            <form [formGroup]="filtroFechaForm" class="flex flex-col px-6">
-                <div class="flex flex-col w-full max-w-xs">
-
-                    <!-- Fecha De Ingreso -->
-                    <mat-form-field class="w-full">
-                        <mat-label>Fecha inicio </mat-label>
-                        <input [min]="minDate" [max]="maxDate" matInput appTwoDigitDecimaNumber
-                            formControlName="fechaInicio" [matDatetimepicker]="fechaInicio" autocomplete="off"
-                            class="text-sm h-8 p-1" />
-                        <mat-datetimepicker-toggle matSuffix [for]="fechaInicio"></mat-datetimepicker-toggle>
-                        <mat-datetimepicker #fechaInicio type="datetime" openOnFocus="true"
-                            timeInterval="5"></mat-datetimepicker>
-
-                    </mat-form-field>
-
-                    <!-- Fecha De Salida -->
-                    <mat-form-field class="w-full">
-                        <mat-label>Fecha fin </mat-label>
-                        <input [min]="minDate" [max]="maxDate" matInput appTwoDigitDecimaNumber
-                            formControlName="fechaFin" [matDatetimepicker]="fechaFin" autocomplete="off"
-                            class="text-sm h-8 p-1" />
-                        <mat-datetimepicker-toggle matSuffix [for]="fechaFin"></mat-datetimepicker-toggle>
-                        <mat-datetimepicker #fechaFin type="datetime" openOnFocus="true"
-                            timeInterval="5"></mat-datetimepicker>
-
-                    </mat-form-field>
-
-                    <button class="w-auto sm:w-48 mt-2 sm:mt-0 sm:ml-4 " mat-flat-button [color]="'accent'"
-                        type="button" (click)="btnBuscarHabitaciones()">
-                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
-                        <span class="ml-2">
-                            Buscar Habitaciones
-                        </span>
-                    </button>
-
-                </div>
-            </form>
-
-            <div class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2 table-container">
+            @if (selecccionTipoServicio) {
+            <div
+                class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2 table-container">
                 <div class="overflow-x-auto mx-2"> <!-- Reducir margen horizontal -->
-                    <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSlice"
-                        [trackBy]="trackByFn" #listaCatalogoHabitacionesTable> <!-- Reducir tamaño de fuente -->
+                    <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSliceSeleccionado"
+                        [trackBy]="trackByFn"  > <!-- Reducir tamaño de fuente -->
 
-                        <!-- Número Habitación -->
-                        <ng-container matColumnDef="numHabitacion">
+                                    <!-- Precio del Servicio -->
+                                    <ng-container matColumnDef="idServicio">
+                                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                            Precio del Servicio
+                                        </th>
+                                        <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                            <span class="flex items-center">
+                                                <span class="ml-2">{{detalle.precioServicio}}</span>
+                                            </span>
+                                        </td>
+                                    </ng-container>
+ 
+                        <!-- Nombre del servicio -->
+                        <ng-container matColumnDef="nombreServicio">
                             <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                Número Habitación
-                            </th>
-                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1"> <!-- Reducir padding -->
-                                <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.numHabitacion}}</span> <!-- Reducir margin left -->
-                                </span>
-                            </td>
-                        </ng-container>
-
-                        <!-- Tipo Habitación -->
-                        <ng-container matColumnDef="tipoHabitacion">
-                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                Tipo Habitación
-                            </th>
-                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.tipoHabitacion}}</span>
-                                </span>
-                            </td>
-                        </ng-container>
-
-                        <!-- Capacidad -->
-                        <ng-container matColumnDef="capacidad">
-                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                Capacidad
+                                Nombre del servicio
                             </th>
                             <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                 <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.capacidad}}</span>
+                                    <span class="ml-2">{{detalle.nombreServicio}}</span>
                                 </span>
                             </td>
                         </ng-container>
 
-                        <!-- PrecioxNoche -->
-                        <ng-container matColumnDef="precioxNoche">
+                        <!-- Precio servicio -->
+                        <ng-container matColumnDef="precioServicio">
                             <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                PrecioxNoche
+                                Precio del servicio
                             </th>
                             <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                 <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.precioxNoche}}</span>
+                                    <span class="ml-2">{{detalle.descripcionServicio}}</span>
                                 </span>
                             </td>
                         </ng-container>
 
-                        <!-- DescripcionHabitacion -->
-                        <ng-container matColumnDef="descripcionHabitacion">
-                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                Descripción Habitación
-                            </th>
-                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.descripcionHabitacion}}</span>
-                                </span>
-                            </td>
-                        </ng-container>
+            
+   
 
-                        <!-- estadoHabitacion -->
-                        <ng-container matColumnDef="estadoHabitacion">
-                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                Estado Habitación
-                            </th>
-                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.estadoHabitacion}}</span>
-                                </span>
-                            </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="catalogoHabitacionesTableColumns"></tr>
-                        <tr class="order-row h-2" mat-row
-                            *matRowDef="let row; columns: catalogoHabitacionesTableColumns;"></tr>
+                        <tr mat-header-row *matHeaderRowDef="seleccionTableColumns"></tr>
+                        <tr class="order-row h-2" mat-row *matRowDef="let row; columns: seleccionTableColumns;"></tr>
                         <!-- Reducir height -->
                     </table>
                 </div>
             </div>
+
+            }
+            }
+
         </div>
+
     </div>
 </div>

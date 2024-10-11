@@ -89,9 +89,9 @@ namespace HOTELINKA.API.Controllers
         [SwaggerResponse(200, "Servicio que Obtiene el catalogo de servicios por tipo")]
         [SwaggerResponse(500, "Error interno en el servidor")]
         [HttpGet("ObtenerCatalogoXTipoAsync")]
-        public async Task<IActionResult> ObtenerCatalogoXTipoAsync([FromQuery] int a)
+        public async Task<IActionResult> ObtenerCatalogoXTipoAsync([FromQuery] int tipo)
         {
-            return Ok(await _reservaService.ObtenerCatalogoXTipoAsync(a));
+            return Ok(await _reservaService.ObtenerCatalogoXTipoAsync(tipo));
         }
 
         [SwaggerOperation(

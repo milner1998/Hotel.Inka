@@ -1,5 +1,5 @@
 
 export interface ObtenerTiposServiciosDTO {
     idTipoServicio: number;
-    TIPO:string;
+    tipoServicio:string;
 }

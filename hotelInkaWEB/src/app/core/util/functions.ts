@@ -253,6 +253,15 @@ export class CommonValidators {
         };
     }
 
+    static onlyNumbersForm(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (control.value == '') { return null; }
+            const valor = control.value;
+            const soloNumeros = /^[0-9]*$/.test(valor);
+            return soloNumeros ? null : { onlyNumbersForm: { value: control.value } };
+        };
+    }
+
     static validFechaNacimientoForm(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             if (control.value == '') { return null };
