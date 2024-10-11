@@ -18,7 +18,7 @@ namespace HOTELINKA.APPLICATION
 
         Task<List<ObtenerCatalogoXTipoDTO>> ObtenerCatalogoXTipoAsync(int a);
 
-        Task<ObtenerTiposServiciosDTO> ObtenerTipoServicioAsync(int id);
+        Task<List<ObtenerTiposServiciosDTO>> ObtenerTipoServicioAsync();
 
         /*Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni);*/
     }

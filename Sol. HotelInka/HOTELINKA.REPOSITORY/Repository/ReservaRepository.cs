@@ -93,10 +93,9 @@ namespace HOTELINKA.REPOSITORY.Repository
                           }).ToListAsync();
         }
 
-        public async Task<t07_tipo_servicio> GetTipoServicio(int id)
+        public async Task<List<t07_tipo_servicio>> GetTipoServicio()
         {
-            return await All<t07_tipo_servicio>().AsNoTracking()
-                .Where(huesped => huesped.ID_TIPO_SERVICIO == id).FirstOrDefaultAsync();
+            return await All<t07_tipo_servicio>().ToListAsync();
 
         }
 
