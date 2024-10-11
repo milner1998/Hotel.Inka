@@ -23,13 +23,13 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.ESTADO_RESERVA = "Pagado";
             });
 
-            CreateMap<Reserva, ResponseDTO>().AfterMap((src, dst) =>
+            /*CreateMap<Reserva, ResponseDTO>().AfterMap((src, dst) =>
             {
                 dst.Success = true;
                 dst.TitleMessage = "Éxito";
                 dst.Message = "Su reserva ha sido generada correctamente";
                 dst.Id = src.ID_RESERVA;
-            });
+            });*/
 
             CreateMap<CatalogoHabitaciones, ObtenerCalogoHabitacionesDTO>().AfterMap((src, dst) =>
             {
@@ -76,13 +76,13 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                  dst.ESTADO = "Pen pago Caja";
              });
 
-            CreateMap<t01_orden_de_hospedaje, ResponseDTO>().AfterMap((src, dst) =>
+            /*CreateMap<t01_orden_de_hospedaje, ResponseDTO>().AfterMap((src, dst) =>
             {
                 dst.Success = true;
                 dst.TitleMessage = "Éxito";
                 dst.Message = "Su Orden De Hospedaje ha sido generada correctamente";
                 dst.Id = src.ID_ORDEN_HOSPEDAJE;
-            });
+            });*/
 
             CreateMap<ConsultaHuespedDetalle, ObtenerOrdenHospedajeXDNI>().AfterMap((src, dst) =>
             {
@@ -107,6 +107,23 @@ namespace HOTELINKA.EXTENSIONS.Mapper
             {
                 dst.idTipoServicio = src.ID_TIPO_SERVICIO;
                 dst.TIPO = src.TIPO;
+            });
+
+            CreateMap<t05_orden_de_servicios, ResponseDTO>().AfterMap((src, dst) =>
+            {
+                dst.Success = true;
+                dst.TitleMessage = "Éxito";
+                dst.Message = "Su Orden De Servicios ha sido generada correctamente";
+                dst.Id = src.ID_ORDEN_SERVICIO;
+            });
+
+            CreateMap<RegistrarOrdenServicio, t05_orden_de_servicios>().AfterMap((src, dst) =>
+            {
+            dst.ID_ORDEN_SERVICIO = src.Id_Orden_Servicio;
+            dst.ID_ORDEN_HOSPEDAJE = src.id_Orden_Hospedaje;
+            dst.ID_SERVICIO = src.id_Servicio;
+            dst.FECHA_SOLICITUD = src.fecchaSoliciutd;
+            dst.ESTADO = "Pendiente de proveedor";
             });
 
             /*CreateMap<Reserva, ObtenerReservaDTO>().AfterMap((src, dst) =>

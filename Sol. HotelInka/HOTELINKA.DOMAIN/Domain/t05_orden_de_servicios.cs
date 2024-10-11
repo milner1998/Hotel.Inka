@@ -8,14 +8,14 @@ namespace HOTELINKA.DOMAIN.Domain
 {
     public class t05_orden_de_servicios : Entity
     {
-        public string ID_ORDEN_SERVICIO { get; set; }
+        public int ID_ORDEN_SERVICIO { get; set; }
 
         public string ID_ORDEN_HOSPEDAJE { get; set; }
 
+        public string ID_SERVICIO { get; set; }
+
         public DateTime FECHA_SOLICITUD { get; set; }
 
-        public decimal MONTO_TOTAL { get; set; }
-
-        public string ESTADO_ORDENSERVICIO { get; set; }
+        public string ESTADO { get; set; }
     }
 }
