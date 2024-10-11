@@ -37,8 +37,8 @@ export class ReservaService {
       .pipe(tap(data => data));
   }
 
-  ObtenerCatalogoXTipoAsync(tipo: number): Observable<ObtenerCatalogoXTipoDTO> {
-    return this.apiService.query(Url.Reserva.ObtenerOrdenHospedajeAsync, { tipo })
+  ObtenerCatalogoXTipoAsync(tipo: number): Observable<ObtenerCatalogoXTipoDTO[]> {
+    return this.apiService.query(Url.Reserva.ObtenerCatalogoXTipoAsync, { tipo })
       .pipe(tap(data => data));
   }
 

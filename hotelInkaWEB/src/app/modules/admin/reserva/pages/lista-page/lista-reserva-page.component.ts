@@ -14,7 +14,8 @@ import moment from 'moment';
 import { ObtenerReservaxDNI } from 'app/core/models/reserva/response/lista/obtener-reserva-por-dni-dto.model';
 import { ObtenerOrdenHospedajeXDNI } from 'app/core/models/reserva/response/Obtener-orden-hospedaje-x-dni';
 import { ObtenerCatalogoXTipoDTO } from 'app/core/models/reserva/response/Obtener-catalogo-servicios-por-tipo';
-
+import { ObtenerTiposServiciosDTO } from 'app/core/models/reserva/response/lista/Obtener-tipo-servicio';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -34,6 +35,8 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     public disabledBuscar: boolean = false;
     public tieneDatos: boolean = false;
 
+    public lstTipoServicio: ObtenerTiposServiciosDTO[];
+
     public textoResultadoTable: string = "";
 
     public isCallingService: boolean = Flags.False;
@@ -45,9 +48,6 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
     filtroListaClienteForm: UntypedFormGroup;
     filtroFechaForm: UntypedFormGroup;
-
-    
-    selected = 'option2';
  
     public pageSlicePersona: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
      
@@ -66,7 +66,6 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     ngOnInit() {
      
         this.formFiltros();
-
     }
  
     onShowFormRegistrarDeudaDialog() {
@@ -99,7 +98,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
             fechaSalida: [''],
             nroHabitacion: [''],
             tipoHabitacion: [''],
-
+            tipoServicio: [''],
         });
  
         this.filtroFechaForm = this._formBuilder.group({
@@ -108,6 +107,11 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
         });
 
+    }
+
+    onTipoServicioChange(event: MatSelectChange){
+        debugger;
+       this.GetCatalogoXTipoAsync(event.value.idTipoServicio);
     }
 
     trackByFn(index: number, item: any): any {
@@ -155,7 +159,9 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         this.filtroListaClienteForm.get('fechaSalida').setValue('');
         this.filtroListaClienteForm.get('nroHabitacion').setValue('');
         this.filtroListaClienteForm.get('tipoHabitacion').setValue('');
+        this.filtroListaClienteForm.get('tipoServicio').setValue('');
         this.pageSlicePersona.data = [];
+        this.lstTipoServicio = []
         this.pageSlice.data = [];
         this.clienteDetalleDataSource.data = [];
         this.tieneDatos = false;
@@ -180,7 +186,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
                 this.filtroListaClienteForm.get('fechaSalida').setValue(response.fechaSalida);
                 this.filtroListaClienteForm.get('nroHabitacion').setValue(response.nroHabitacion);
                 this.filtroListaClienteForm.get('tipoHabitacion').setValue(response.tipoHabitacion);
-
+                this.GetObtenerTipoServicioAsync();
                 //this.GetReservaByDNIAsync(response.idHuesped)
                 // this.pageSlicePersona.data.push(response);
           
@@ -205,11 +211,10 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         });
     }
 
-    GetReservaByDNIAsync(tipo: number) {
-   
-        this._reservaService.ObtenerCatalogoXTipoAsync(tipo).subscribe((response: ObtenerCatalogoXTipoDTO) => {
+    GetCatalogoXTipoAsync(tipo: number) {
+        this._reservaService.ObtenerCatalogoXTipoAsync(tipo).subscribe((response: ObtenerCatalogoXTipoDTO[]) => {
              if(response){
- 
+                debugger;
                 this.setPageSlicePersona(response);
                 this.disabledBuscar = Flags.False;
                 return;
@@ -230,11 +235,24 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
             if (this.pageSlice.data.length > Numeracion.Cero) {
                 this.setPageSlice(this.pageSlice.data);
                 this.disabledBuscar = Flags.False;
-               
+                
                 return;
             }
         
             this.disabledBuscar = Flags.False;
+ 
+        }, err => {
+            this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
+            this.disabledBuscar = Flags.False;
+            console.log(err);
+
+        });
+    }
+
+    GetObtenerTipoServicioAsync() {
+        this._reservaService.ObtenerTipoServicioAsync().subscribe((response: ObtenerTiposServiciosDTO[]) => {
+            this.disabledBuscar = Flags.False;
+            this.lstTipoServicio = response;
  
         }, err => {
             this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
