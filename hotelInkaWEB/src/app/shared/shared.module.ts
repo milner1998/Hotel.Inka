@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule, MatOptionModule, MatRippleModule, NativeDateAdapter } from '@angular/material/core';
-import {} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
