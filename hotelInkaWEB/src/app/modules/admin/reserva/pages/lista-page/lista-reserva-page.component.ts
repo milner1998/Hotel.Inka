@@ -6,7 +6,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { Flags, Numeracion } from 'app/core/resource/dictionary.constants';
-import { DictionaryErrors } from 'app/core/resource/dictionaryError.constants';
+import { DictionaryErrors, DictionaryWarning } from 'app/core/resource/dictionaryError.constants';
 import { ToolService } from 'app/core/services/tool/tool.service';
 import { ReservaService } from 'app/core/services/reserva/reserva.service';
 import { ObtenerClientePorDNIDTO } from 'app/core/models/reserva/response/lista/obtener-cliente-por-dni-dto.model';
@@ -16,6 +16,7 @@ import { ObtenerOrdenHospedajeXDNI } from 'app/core/models/reserva/response/Obte
 import { ObtenerCatalogoXTipoDTO } from 'app/core/models/reserva/response/Obtener-catalogo-servicios-por-tipo';
 import { ObtenerTiposServiciosDTO } from 'app/core/models/reserva/response/lista/Obtener-tipo-servicio';
 import { MatSelectChange } from '@angular/material/select';
+import { CommonValidators } from 'app/core/util/functions';
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -26,6 +27,8 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    
+
     minDate = moment(new Date()).format('YYYY-MM-DD')
     maxDate = moment("2024-12-31").format('YYYY-MM-DD') 
     public allCatalogoHabitacionesDataSource: ObtenerCatalogoHabitacionesDTO[];
@@ -34,6 +37,8 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     public disabledAcciones: boolean = false;
     public disabledBuscar: boolean = false;
     public tieneDatos: boolean = false;
+    public hayDatosCliente: boolean = false;
+    public selecccionTipoServicio: boolean = false;
 
     public lstTipoServicio: ObtenerTiposServiciosDTO[];
 
@@ -47,14 +52,14 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
 
     filtroListaClienteForm: UntypedFormGroup;
-    filtroFechaForm: UntypedFormGroup;
  
     public pageSlicePersona: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
      
     public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
     
-    public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio'];
+    public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'comentario', 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio' ,'acciones'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -64,12 +69,16 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngOnInit() {
-     
         this.formFiltros();
     }
  
     onShowFormRegistrarDeudaDialog() {
         this.isCallingService = Flags.True;
+    }
+
+    onSeleccionar(select: ObtenerCatalogoXTipoDTO){
+        debugger;
+        this.selecccionTipoServicio = true;
     }
 
     ngAfterViewInit() {
@@ -83,30 +92,23 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngOnDestroy() {
-
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
     formFiltros() {
         this.filtroListaClienteForm = this._formBuilder.group({
-            dni: ['', Validators.required],
-            nombreHuesped: [''],
-            apellidoHuesped: [''],
-            nroOrdenHospedaje: [''],
-            fechaIngreso: [''],
-            fechaSalida: [''],
-            nroHabitacion: [''],
-            tipoHabitacion: [''],
+            dni: ['', [Validators.required, Validators.minLength(Numeracion.Dos), Validators.maxLength(Numeracion.Ocho), CommonValidators.onlyNumbersForm()]],
+            nombreHuesped: [{value: '', disabled: Flags.Deshabilitado}],
+            apellidoHuesped: [{value: '', disabled: Flags.Deshabilitado}],
+            nroOrdenHospedaje: [{value: '', disabled: Flags.Deshabilitado}],
+            fechaIngreso: [{value: '', disabled: Flags.Deshabilitado}],
+            fechaSalida: [{value: '', disabled: Flags.Deshabilitado}],
+            nroHabitacion: [{value: '', disabled: Flags.Deshabilitado}],
+            tipoHabitacion: [{value: '', disabled: Flags.Deshabilitado}],
             tipoServicio: [''],
         });
  
-        this.filtroFechaForm = this._formBuilder.group({
-            fechaInicio: ['', Validators.required],
-            fechaFin: ['', Validators.required],
-
-        });
-
     }
 
     onTipoServicioChange(event: MatSelectChange){
@@ -165,6 +167,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         this.pageSlice.data = [];
         this.clienteDetalleDataSource.data = [];
         this.tieneDatos = false;
+        this.hayDatosCliente = false;
     }
 
     btnBuscarHabitaciones() {
@@ -187,6 +190,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
                 this.filtroListaClienteForm.get('nroHabitacion').setValue(response.nroHabitacion);
                 this.filtroListaClienteForm.get('tipoHabitacion').setValue(response.tipoHabitacion);
                 this.GetObtenerTipoServicioAsync();
+                this.hayDatosCliente = true;
                 //this.GetReservaByDNIAsync(response.idHuesped)
                 // this.pageSlicePersona.data.push(response);
           
@@ -194,6 +198,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
                 // this.disabledBuscar = Flags.False;
                 return;
              }
+             this._toolService.showWarning("El huesped no se encuentra registrado", DictionaryWarning.Tittle );
              this.tieneDatos = false;
              this.filtroListaClienteForm.get('nombreHuesped').setValue('');
              this.filtroListaClienteForm.get('apellidoHuesped').setValue('');
