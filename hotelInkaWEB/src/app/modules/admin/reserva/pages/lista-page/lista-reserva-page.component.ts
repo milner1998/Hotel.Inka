@@ -54,12 +54,14 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     filtroListaClienteForm: UntypedFormGroup;
  
     public pageSlicePersona: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
+
+    public pageSliceSeleccionado: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
      
     public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
     
     public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'comentario', 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio' ,'acciones'];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio' ];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -79,6 +81,10 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     onSeleccionar(select: ObtenerCatalogoXTipoDTO){
         debugger;
         this.selecccionTipoServicio = true;
+
+        this.pageSliceSeleccionado.data  = [] 
+        this.pageSliceSeleccionado.data.push(select);
+
     }
 
     ngAfterViewInit() {
