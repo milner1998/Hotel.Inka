@@ -19,7 +19,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.CORREO_ELECTRONICO = src.CorreoElectronico.Trim() ?? string.Empty;
                 dst.TELEFONO_CLIENTE = src.TelefonoCliente;*/
                 dst.FECHA_INGRESO = DateTime.UtcNow;
-                dst.FECHA_SALIDA  = DateTime.UtcNow;
+                dst.FECHA_SALIDA = DateTime.UtcNow;
                 dst.ESTADO_RESERVA = "Pagado";
             });
 
@@ -65,16 +65,16 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.correoCliente = src.CORREO_ELECTRONICO.Trim() ?? string.Empty;
             });*/
 
-           CreateMap<RegistrarOrdenHospedaje, t01_orden_de_hospedaje>().AfterMap((src, dst) =>
-            {
-                dst.ID_ORDEN_HOSPEDAJE = src.IdOrdenHodepaje;
-                //dst.Id_Reserva = src.IdReserva;
-                //dst.Id_Habitacion = src.IdHabitacion;
-                dst.FECHA_INGRESO = src.FechaInicio;
-                dst.FECHA_SALIDA = DateTime.UtcNow;
-                //dst.Total_Pago = src.TotalPago;
-                dst.ESTADO = "Pen pago Caja";
-            });
+            CreateMap<RegistrarOrdenHospedaje, t01_orden_de_hospedaje>().AfterMap((src, dst) =>
+             {
+                 dst.ID_ORDEN_HOSPEDAJE = src.IdOrdenHodepaje;
+                 //dst.Id_Reserva = src.IdReserva;
+                 //dst.Id_Habitacion = src.IdHabitacion;
+                 dst.FECHA_INGRESO = src.FechaInicio;
+                 dst.FECHA_SALIDA = DateTime.UtcNow;
+                 //dst.Total_Pago = src.TotalPago;
+                 dst.ESTADO = "Pen pago Caja";
+             });
 
             CreateMap<t01_orden_de_hospedaje, ResponseDTO>().AfterMap((src, dst) =>
             {
@@ -101,6 +101,12 @@ namespace HOTELINKA.EXTENSIONS.Mapper
                 dst.nombreServicio = src.NombreServicio;
                 dst.descripcionServicio = src.DescripcionServicio;
                 dst.precioServcio = src.PrecioServicio;
+            });
+
+            CreateMap<t07_tipo_servicio, ObtenerTiposServiciosDTO>().AfterMap((src, dst) =>
+            {
+                dst.idTipoServicio = src.ID_TIPO_SERVICIO;
+                dst.TIPO = src.TIPO;
             });
 
             /*CreateMap<Reserva, ObtenerReservaDTO>().AfterMap((src, dst) =>

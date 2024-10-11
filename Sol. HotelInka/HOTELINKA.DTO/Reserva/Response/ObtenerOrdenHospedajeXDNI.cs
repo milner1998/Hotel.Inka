@@ -11,19 +11,19 @@ namespace HOTELINKA.DTO.Reserva.Response
     public class ObtenerOrdenHospedajeXDNI
     {
         [SwaggerSchema("Nombre")]
-        [JsonPropertyName("idOrdenHospedaje")]
+        [JsonPropertyName("nombreHuesped")]
         public string NombreHuesped { get; set; }
 
         [SwaggerSchema("Apellido")]
-        [JsonPropertyName("dniCliente")]
+        [JsonPropertyName("apellidoHuesped")]
         public string ApellidoHuesped { get; set; }
 
         [SwaggerSchema("Nro orden de hospedaje")]
-        [JsonPropertyName("NroOrden")]
+        [JsonPropertyName("nroOrden")]
         public string NroOrdenHospedaje { get; set; }
 
         [SwaggerSchema("Fecha de ingreso")]
-        [JsonPropertyName("FechaIngreso")]
+        [JsonPropertyName("fechaIngreso")]
         public DateTime FechaIngreso { get; set; }
 
         [SwaggerSchema("Fecha de saida")]

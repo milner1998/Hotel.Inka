@@ -64,7 +64,7 @@ namespace HOTELINKA.REPOSITORY.Repository
                          join o in _context.t01_orden_de_hospedaje on h.ID_ORDEN_HOSPEDAJE equals o.ID_ORDEN_HOSPEDAJE
                          join c in _context.t03_cliente on o.ID_CLIENTE equals c.ID_CLIENTE
                          join r in _context.t02_habitaciones on o.ID_HABITACION equals r.ID_HABITACION
-                         where c.DNI == DNI // Reemplaza el DNI según sea necesario
+                         where c.DNI == DNI && o.ESTADO == "Finalizado"// Reemplaza el DNI según sea necesario
                          select new ConsultaHuespedDetalle
                          {
                              NombreHuesped = h.NOMBRE_HUESPED,
@@ -91,6 +91,13 @@ namespace HOTELINKA.REPOSITORY.Repository
                               PrecioServicio= s.PRECIO_SERVICIO,
 
                           }).ToListAsync();
+        }
+
+        public async Task<t07_tipo_servicio> GetTipoServicio(int id)
+        {
+            return await All<t07_tipo_servicio>().AsNoTracking()
+                .Where(huesped => huesped.ID_TIPO_SERVICIO == id).FirstOrDefaultAsync();
+
         }
 
         /*public async Task<Reserva> GetReservaXDNI(string dni)

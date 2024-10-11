@@ -93,6 +93,17 @@ namespace HOTELINKA.API.Controllers
         {
             return Ok(await _reservaService.ObtenerCatalogoXTipoAsync(a));
         }
+
+        [SwaggerOperation(
+        Summary = "Obtener Tipos de Servicios",
+        OperationId = " ObtenerTipoServicioAsync")]
+        [SwaggerResponse(200, "Servicio que Obtiene la informacion del cliente por DNI")]
+        [SwaggerResponse(500, "Error interno en el servidor")]
+        [HttpGet("ObtenerTipoServicioAsync")]
+        public async Task<IActionResult> ObtenerTipoServicioAsync([FromQuery] int id)
+        {
+            return Ok(await _reservaService.ObtenerTipoServicioAsync(id));
+        }
         /*[SwaggerOperation(
         Summary = "Servicio que obtiene las reservas del cliente",
         OperationId = "ObtenerReservaxDNI")]

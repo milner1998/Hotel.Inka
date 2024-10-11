@@ -22,5 +22,7 @@ namespace HOTELINKA.DOMAIN.VO
 
         public string TipoHabitacion { get; set; }
 
+        public string Estado { get; set; }
+
     }
 }

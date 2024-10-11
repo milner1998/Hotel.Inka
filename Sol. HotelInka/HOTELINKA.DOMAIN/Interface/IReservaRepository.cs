@@ -23,6 +23,8 @@ namespace HOTELINKA.DOMAIN.Interface
 
         Task<List<ConsultarCatalogoXTipo>> GetObtenerCatalogoXTipo(int a);
 
+        Task<t07_tipo_servicio> GetTipoServicio(int id);
+
         /*Task<Reserva> GetReservaXDNI(string dni);*/
     }
 }

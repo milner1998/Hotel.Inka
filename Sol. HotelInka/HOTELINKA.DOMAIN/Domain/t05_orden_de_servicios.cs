@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HOTELINKA.DOMAIN.Domain
 {
-    public class OrdenDeServicio : Entity
+    public class t05_orden_de_servicios : Entity
     {
         public string ID_ORDEN_SERVICIO { get; set; }
 

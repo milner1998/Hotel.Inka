@@ -20,9 +20,10 @@ namespace HOTELINKA.REPOSITORY.Context
 
         public DbSet<t03_cliente> t03_cliente { get; set; }
 
-
         public DbSet<t04_huesped> t04_huesped { get; set; }
 
+        public DbSet<t05_orden_de_servicios> t05_orden_de_servicios { get; set; }
+        
         public DbSet<t06_catalogo_servicios> t06_catalogo_servicios { get; set; }
 
         public DbSet<t07_tipo_servicio> t07_tipo_servicio { get; set; }
@@ -50,6 +51,9 @@ namespace HOTELINKA.REPOSITORY.Context
 
             builder.Entity<t04_huesped>()
                 .HasKey(o => new { o.ID_HUESPED });
+
+            builder.Entity<t05_orden_de_servicios>()
+                .HasKey(o => new { o.ID_ORDEN_SERVICIO });
 
             builder.Entity<t06_catalogo_servicios>()
                 .HasKey(o => new { o.ID_SERVICIO });

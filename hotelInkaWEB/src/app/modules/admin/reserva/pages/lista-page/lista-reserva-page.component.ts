@@ -12,6 +12,9 @@ import { ReservaService } from 'app/core/services/reserva/reserva.service';
 import { ObtenerClientePorDNIDTO } from 'app/core/models/reserva/response/lista/obtener-cliente-por-dni-dto.model';
 import moment from 'moment';
 import { ObtenerReservaxDNI } from 'app/core/models/reserva/response/lista/obtener-reserva-por-dni-dto.model';
+import { ObtenerOrdenHospedajeXDNI } from 'app/core/models/reserva/response/Obtener-orden-hospedaje-x-dni';
+import { ObtenerCatalogoXTipoDTO } from 'app/core/models/reserva/response/Obtener-catalogo-servicios-por-tipo';
+
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -42,12 +45,15 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
     filtroListaClienteForm: UntypedFormGroup;
     filtroFechaForm: UntypedFormGroup;
+
+    
+    selected = 'option2';
  
-    public pageSlicePersona: MatTableDataSource<ObtenerReservaxDNI> = new MatTableDataSource();
+    public pageSlicePersona: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
      
     public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
     
-    public catalogoTableColumns: string[] = ['tipoHabitacion', 'descripcion', 'capHabitacion'];
+    public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -86,10 +92,13 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     formFiltros() {
         this.filtroListaClienteForm = this._formBuilder.group({
             dni: ['', Validators.required],
-            nombreCliente: [''],
-            apellidoCliente: [''],
-            telefono: [''],
-            correo: [''],
+            nombreHuesped: [''],
+            apellidoHuesped: [''],
+            nroOrdenHospedaje: [''],
+            fechaIngreso: [''],
+            fechaSalida: [''],
+            nroHabitacion: [''],
+            tipoHabitacion: [''],
 
         });
  
@@ -139,10 +148,13 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
     btnLimpiar() {
         this.filtroListaClienteForm.get('dni').setValue('');
-        this.filtroListaClienteForm.get('nombreCliente').setValue('');
-        this.filtroListaClienteForm.get('apellidoCliente').setValue('');
-        this.filtroListaClienteForm.get('telefono').setValue('');
-        this.filtroListaClienteForm.get('correo').setValue('');
+        this.filtroListaClienteForm.get('nombreHuesped').setValue('');
+        this.filtroListaClienteForm.get('apellidoHuesped').setValue('');
+        this.filtroListaClienteForm.get('nroOrdenHospedaje').setValue('');
+        this.filtroListaClienteForm.get('fechaIngreso').setValue('');
+        this.filtroListaClienteForm.get('fechaSalida').setValue('');
+        this.filtroListaClienteForm.get('nroHabitacion').setValue('');
+        this.filtroListaClienteForm.get('tipoHabitacion').setValue('');
         this.pageSlicePersona.data = [];
         this.pageSlice.data = [];
         this.clienteDetalleDataSource.data = [];
@@ -157,15 +169,19 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
    
         const txtDNI = this.filtroListaClienteForm.get('dni').value;
 
-        this._reservaService.ObtenerClienteXDNIAsync(txtDNI).subscribe((response: ObtenerClientePorDNIDTO) => {
+        this._reservaService.ObtenerOrdenHospedajeAsync(txtDNI).subscribe((response: ObtenerOrdenHospedajeXDNI) => {
   
              if(response){
                 this.tieneDatos = true;
-                this.filtroListaClienteForm.get('nombreCliente').setValue(response.nomCliente);
-                this.filtroListaClienteForm.get('apellidoCliente').setValue(response.apeCliente);
-                this.filtroListaClienteForm.get('telefono').setValue(response.telefonoCliente);
-                this.filtroListaClienteForm.get('correo').setValue(response.correoCliente);
-                this.GetReservaByDNIAsync(response.idHuesped)
+                this.filtroListaClienteForm.get('nombreHuesped').setValue(response.nombreHuesped);
+                this.filtroListaClienteForm.get('apellidoHuesped').setValue(response.apellidoHuesped);
+                this.filtroListaClienteForm.get('nroOrdenHospedaje').setValue(response.nroOrden);
+                this.filtroListaClienteForm.get('fechaIngreso').setValue(response.fechaIngreso);
+                this.filtroListaClienteForm.get('fechaSalida').setValue(response.fechaSalida);
+                this.filtroListaClienteForm.get('nroHabitacion').setValue(response.nroHabitacion);
+                this.filtroListaClienteForm.get('tipoHabitacion').setValue(response.tipoHabitacion);
+
+                //this.GetReservaByDNIAsync(response.idHuesped)
                 // this.pageSlicePersona.data.push(response);
           
                 // this.setPageSlicePersona(this.pageSlicePersona.data);
@@ -173,9 +189,9 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
                 return;
              }
              this.tieneDatos = false;
-             this.filtroListaClienteForm.get('nombreCliente').setValue('');
-             this.filtroListaClienteForm.get('apellidoCliente').setValue('');
-             this.filtroListaClienteForm.get('telefono').setValue('');
+             this.filtroListaClienteForm.get('nombreHuesped').setValue('');
+             this.filtroListaClienteForm.get('apellidoHuesped').setValue('');
+             this.filtroListaClienteForm.get('nroOrdenHospedaje').setValue('');
              this.filtroListaClienteForm.get('correo').setValue('');
              this.pageSlicePersona.data = [];
              this.clienteDetalleDataSource.data = [];
@@ -189,9 +205,9 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         });
     }
 
-    GetReservaByDNIAsync(idCliente: number) {
+    GetReservaByDNIAsync(tipo: number) {
    
-        this._reservaService.ObtenerReservaDNIAsync(idCliente).subscribe((response: ObtenerReservaxDNI[]) => {
+        this._reservaService.ObtenerCatalogoXTipoAsync(tipo).subscribe((response: ObtenerCatalogoXTipoDTO) => {
              if(response){
  
                 this.setPageSlicePersona(response);

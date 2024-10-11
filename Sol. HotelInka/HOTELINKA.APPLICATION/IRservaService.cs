@@ -17,7 +17,9 @@ namespace HOTELINKA.APPLICATION
         Task<ObtenerOrdenHospedajeXDNI> ObtenerOrdenHospedajeAsync (string DNI);
 
         Task<List<ObtenerCatalogoXTipoDTO>> ObtenerCatalogoXTipoAsync(int a);
-        
+
+        Task<ObtenerTiposServiciosDTO> ObtenerTipoServicioAsync(int id);
+
         /*Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni);*/
     }
 }
