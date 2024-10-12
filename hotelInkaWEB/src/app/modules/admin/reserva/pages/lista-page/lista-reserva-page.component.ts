@@ -60,7 +60,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     
     public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio',  ];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio', 'acciones'  ];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -71,6 +71,10 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
     ngOnInit() {
         this.formFiltros();
+    }
+
+    onGenerarOrden(select: ObtenerCatalogoXTipoDTO){
+        alert("ORDEN GENERADO MILNER CHIPI")
     }
  
     onShowFormRegistrarDeudaDialog() {

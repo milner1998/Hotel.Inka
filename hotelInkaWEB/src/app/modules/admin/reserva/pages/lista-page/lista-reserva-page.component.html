@@ -203,20 +203,20 @@
                 class="xl:col-span-3 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden mt-2 table-container">
                 <div class="overflow-x-auto mx-2"> <!-- Reducir margen horizontal -->
                     <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSliceSeleccionado"
-                        [trackBy]="trackByFn"  > <!-- Reducir tamaño de fuente -->
+                        [trackBy]="trackByFn"> <!-- Reducir tamaño de fuente -->
 
-                                    <!-- Precio del Servicio -->
-                                    <ng-container matColumnDef="idServicio">
-                                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
-                                            Precio del Servicio
-                                        </th>
-                                        <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                            <span class="flex items-center">
-                                                <span class="ml-2">{{detalle.nombreServicio}}</span>
-                                            </span>
-                                        </td>
-                                    </ng-container>
- 
+                        <!-- Precio del Servicio -->
+                        <ng-container matColumnDef="idServicio">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
+                                Precio del Servicio
+                            </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                <span class="flex items-center">
+                                    <span class="ml-2">{{detalle.nombreServicio}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
                         <!-- Nombre del servicio -->
                         <ng-container matColumnDef="nombreServicio">
                             <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
@@ -240,7 +240,19 @@
                                 </span>
                             </td>
                         </ng-container>
-  
+
+                                            <!-- Columna Seleccione -->
+                                            <ng-container matColumnDef="acciones">
+                                                <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
+                                                    Generar orden
+                                                </th>
+                                                <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                                    <button mat-button color="primary" (click)="onGenerarOrden(detalle)">
+                                                        Generar orden
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+
                         <tr mat-header-row *matHeaderRowDef="seleccionTableColumns"></tr>
                         <tr class="order-row h-2" mat-row *matRowDef="let row; columns: seleccionTableColumns;"></tr>
                         <!-- Reducir height -->
