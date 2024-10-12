@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
-import { Flags, Numeracion } from 'app/core/resource/dictionary.constants';
+import { DictionarySucess, Flags, Numeracion } from 'app/core/resource/dictionary.constants';
 import { DictionaryErrors, DictionaryWarning } from 'app/core/resource/dictionaryError.constants';
 import { ToolService } from 'app/core/services/tool/tool.service';
 import { ReservaService } from 'app/core/services/reserva/reserva.service';
@@ -19,6 +19,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { CommonValidators } from 'app/core/util/functions';
 import { ResponseDTO } from 'app/core/models/generic/response-dto.model';
 import { RegistrarOrdenServicio } from 'app/core/models/reserva/response/lista/Registrar-orden-servicio';
+import { messages } from 'app/mock-api/apps/chat/data';
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -76,7 +77,6 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     onGenerarOrden(select: ObtenerCatalogoXTipoDTO){
-        alert("ORDEN GENERADO MILNER CHIPI")
     }
  
     onShowFormRegistrarDeudaDialog() {
@@ -87,9 +87,10 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         debugger;
         this.selecccionTipoServicio = true;
 
-        this.pageSliceSeleccionado.data  = [] 
-        this.pageSliceSeleccionado.data.push(select);
-
+        
+        this.pageSliceSeleccionado.push(select);
+        this.pageSliceSeleccionado = [...this.pageSliceSeleccionado];
+        this.PostGenerarOrdenServicio()
     }
 
     ngAfterViewInit() {
@@ -282,11 +283,12 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         const request= new RegistrarOrdenServicio()
 
         request.idOrdenHospedaje= "OH001"
-        request.idOrdenServicio = 2
+        request.idOrdenServicio = 0
         request.idServicio= "10"
 
         this._reservaService.AddOrdenServicioAsync(request).subscribe((response: ResponseDTO) => {
             this.disabledBuscar = Flags.False;
+            this._toolService.showSuccess(response.message,DictionarySucess.Transaction)
  
         }, err => {
             this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
