@@ -205,7 +205,7 @@
                     <table class="w-full bg-transparent text-sm" mat-table matSort [dataSource]="pageSliceSeleccionado"
                         [trackBy]="trackByFn"> <!-- Reducir tamaño de fuente -->
 
-                        <!-- Precio del Servicio -->
+                        <!-- Identificador del Servicio -->
                         <ng-container matColumnDef="idServicio">
                             <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1">
                                 Precio del Servicio
@@ -241,6 +241,22 @@
                             </td>
                         </ng-container>
 
+                        <!-- Cantidad (editable) -->
+                        <ng-container matColumnDef="cantidad">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1"> Cantidad </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                        <input type="number" [(ngModel)]="detalle.cantidad" (input)="calcularTotal(detalle)" min="1" class="w-full px-1">
+                        </td>
+                        </ng-container>
+
+                         <!-- Precio total (calculado) -->
+                         <ng-container matColumnDef="precioTotal">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef class="px-2 py-1"> Precio Total </th>
+                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                {{detalle.precioTotal | currency}}
+                            </td>
+                        </ng-container>    
+
                         <!-- Columna Seleccione -->
                         <ng-container matColumnDef="acciones">
                                                 <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
@@ -252,17 +268,19 @@
                                                     </button>
                                                 </td>
                                             </ng-container>
-                        <!-- Columna Seleccione -->
-                        <ng-container matColumnDef="delete">
-                            <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
-                                Delete
-                            </th>
-                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                <button mat-button color="primary" (click)="Eliminar(detalle)">
-                                    Delete
-                                </button>
-                            </td>
-                        </ng-container>
+                       
+                        <!-- Columna Borrar -->
+                        <!-- <ng-container matColumnDef="delete">
+                                                <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
+                                                    Delete
+                                                </th>
+                                                 <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
+                                                    <button mat-button color="primary" (click)="Eliminar(detalle)">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                        </ng-container> -->
+
 
                         <tr mat-header-row *matHeaderRowDef="seleccionTableColumns"></tr>
                         <tr class="order-row h-2" mat-row *matRowDef="let row; columns: seleccionTableColumns;"></tr>
@@ -270,7 +288,7 @@
                     </table>
                 </div>
             </div>
-            <button class="w-auto sm:w-48 sm:ml-4 m-2" mat-flat-button [color]="'primary'" type="button"
+        <button class="w-auto sm:w-48 sm:ml-4 m-2" mat-flat-button [color]="'primary'" type="button"
             ()="btnBuscar()" [disabled]="filtroListaClienteForm.invalid">
             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
             <span class="ml-2">

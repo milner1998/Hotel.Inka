@@ -65,7 +65,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     
     public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio', 'acciones' ,'delete' ];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio','cantidad','precioTotal', 'acciones' ,'delete' ];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -98,18 +98,18 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
         request.idOrdenHospedaje = this.ordenHospedaje;
         request.idServicio = select.idServicio;
-        //request.cantidad=
+        //request.cantidad =
         //request.precioTotal = select.precioServicio *  
         //this.PostGenerarOrdenServicio()
     }
 
-    Eliminar(select: ObtenerCatalogoXTipoDTO){
-        debugger;
+    // Eliminar(select: ObtenerCatalogoXTipoDTO){
+    //     debugger;
+        
+    //     //this.pageSliceSeleccionado.(select);
+    //     this.pageSliceSeleccionado = this.pageSliceSeleccionado.filter(item => item.idServicio !== select.idServicio);
 
-        //this.pageSliceSeleccionado.(select);
-        this.pageSliceSeleccionado = this.pageSliceSeleccionado.filter(item => item.idServicio !== select.idServicio);
-
-    }
+    // }
 
     ngAfterViewInit() {
         this.pageSlice.sortingDataAccessor = this.sortingActivoData;
@@ -174,6 +174,12 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     isMobilSize(): boolean {
         return this._toolService.isMobilSize();
     }
+
+    /*btnGenerarOrdenHospedaje(){
+        if(!this.filtroListaClienteForm.valid){return;}
+
+        this.GetClienteByDNIAsync();
+    }*/
 
     btnBuscar() {
 

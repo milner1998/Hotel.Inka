@@ -5,6 +5,5 @@ export class RegistrarOrdenServicio {
     idServicio:string;
     cantidad: number;
     precioTotal:number;
-    estado:string;
 
 }
