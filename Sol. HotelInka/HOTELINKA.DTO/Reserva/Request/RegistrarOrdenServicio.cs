@@ -11,10 +11,6 @@ namespace HOTELINKA.DTO.Reserva.Request
     public class RegistrarOrdenServicio
     {
                 
-        [SwaggerSchema("Identificador de la orden de Servicio")]
-        [JsonPropertyName("idOrdenServicio")]
-        public int Id_Orden_Servicio { get; set; }
-                
         [SwaggerSchema("Identificador de la Orden de Hospedjar")]
         [JsonPropertyName("idOrdenHospedaje")]
        
@@ -23,6 +19,14 @@ namespace HOTELINKA.DTO.Reserva.Request
         [SwaggerSchema("Identificador del Servicio")]
         [JsonPropertyName("idServicio")]
         public string id_Servicio { get; set; }
+
+        [SwaggerSchema("Cantidad de servicio")]
+        [JsonPropertyName("cantidad")]
+        public int cantidad { get; set; }
+
+        [SwaggerSchema("Precio Total")]
+        [JsonPropertyName("precioTotal")]
+        public decimal pago_total { get; set; }
 
 
     }   

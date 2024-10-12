@@ -42,6 +42,8 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     public selecccionTipoServicio: boolean = false;
     public modelCantidad: number = 0;
 
+    public ordenHospedaje: string;
+
     public lstTipoServicio: ObtenerTiposServiciosDTO[];
 
     public textoResultadoTable: string = "";
@@ -63,7 +65,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     
     public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio', 'acciones'  ];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio', 'acciones' ,'delete' ];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -90,7 +92,23 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         
         this.pageSliceSeleccionado.push(select);
         this.pageSliceSeleccionado = [...this.pageSliceSeleccionado];
-        this.PostGenerarOrdenServicio()
+
+        const request = new RegistrarOrdenServicio();
+
+
+        request.idOrdenHospedaje = this.ordenHospedaje;
+        request.idServicio = select.idServicio;
+        //request.cantidad=
+        //request.precioTotal = select.precioServicio *  
+        //this.PostGenerarOrdenServicio()
+    }
+
+    Eliminar(select: ObtenerCatalogoXTipoDTO){
+        debugger;
+
+        //this.pageSliceSeleccionado.(select);
+        this.pageSliceSeleccionado = this.pageSliceSeleccionado.filter(item => item.idServicio !== select.idServicio);
+
     }
 
     ngAfterViewInit() {
@@ -194,6 +212,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
   
              if(response){
                 this.tieneDatos = true;
+                this.ordenHospedaje= response.nroOrden;
                 this.filtroListaClienteForm.get('nombreHuesped').setValue(response.nombreHuesped);
                 this.filtroListaClienteForm.get('apellidoHuesped').setValue(response.apellidoHuesped);
                 this.filtroListaClienteForm.get('nroOrdenHospedaje').setValue(response.nroOrden);
@@ -279,12 +298,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         });
     }
 
-    PostGenerarOrdenServicio() {
-        const request= new RegistrarOrdenServicio()
-
-        request.idOrdenHospedaje= "OH001"
-        request.idOrdenServicio = 0
-        request.idServicio= "10"
+    PostGenerarOrdenServicio(request:RegistrarOrdenServicio) {
 
         this._reservaService.AddOrdenServicioAsync(request).subscribe((response: ResponseDTO) => {
             this.disabledBuscar = Flags.False;

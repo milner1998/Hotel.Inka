@@ -16,6 +16,10 @@ namespace HOTELINKA.DOMAIN.Domain
 
         public DateTime FECHA_SOLICITUD { get; set; }
 
+        public int CANTIDAD { get; set; }
+
+        public decimal PAGO_TOTAL { get; set; }
+
         public string ESTADO { get; set; }
     }
 }

@@ -119,10 +119,11 @@ namespace HOTELINKA.EXTENSIONS.Mapper
 
             CreateMap<RegistrarOrdenServicio, t05_orden_de_servicios>().AfterMap((src, dst) =>
             {
-            dst.ID_ORDEN_SERVICIO = src.Id_Orden_Servicio;
             dst.ID_ORDEN_HOSPEDAJE = src.id_Orden_Hospedaje;
             dst.ID_SERVICIO = src.id_Servicio;
             dst.FECHA_SOLICITUD = DateTime.UtcNow;
+            dst.CANTIDAD = src.cantidad;
+            dst.PAGO_TOTAL = src.pago_total;
             dst.ESTADO = "Pendiente de proveedor";
             });
 
