@@ -27,8 +27,6 @@ import { CommonValidators } from 'app/core/util/functions';
 })
 export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    
-
     minDate = moment(new Date()).format('YYYY-MM-DD')
     maxDate = moment("2024-12-31").format('YYYY-MM-DD') 
     public allCatalogoHabitacionesDataSource: ObtenerCatalogoHabitacionesDTO[];
@@ -39,6 +37,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     public tieneDatos: boolean = false;
     public hayDatosCliente: boolean = false;
     public selecccionTipoServicio: boolean = false;
+    public modelCantidad: number = 0;
 
     public lstTipoServicio: ObtenerTiposServiciosDTO[];
 
@@ -55,13 +54,13 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
  
     public pageSlicePersona: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
 
-    public pageSliceSeleccionado: MatTableDataSource<ObtenerCatalogoXTipoDTO> = new MatTableDataSource();
+    public pageSliceSeleccionado: ObtenerCatalogoXTipoDTO[] = [];
      
     public pageSlice: MatTableDataSource<ObtenerCatalogoHabitacionesDTO> = new MatTableDataSource();
     
-    public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'comentario', 'acciones'];
+    public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio' ];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio',  ];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -81,10 +80,9 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     onSeleccionar(select: ObtenerCatalogoXTipoDTO){
         debugger;
         this.selecccionTipoServicio = true;
-
-        this.pageSliceSeleccionado.data  = [] 
-        this.pageSliceSeleccionado.data.push(select);
-
+ 
+        this.pageSliceSeleccionado.push(select);
+        this.pageSliceSeleccionado = [...this.pageSliceSeleccionado];
     }
 
     ngAfterViewInit() {

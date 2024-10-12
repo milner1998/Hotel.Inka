@@ -190,16 +190,6 @@
                             </td>
                         </ng-container>
 
-                        <!-- Comentario -->
-                        <ng-container matColumnDef="comentario">
-                            <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
-                                Comentario
-                            </th>
-                            <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                <input matInput [(ngModel)]="detalle.precioServicio"
-                                    placeholder="Ingrese un comentario">
-                            </td>
-                        </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="catalogoTableColumns"></tr>
                         <tr class="order-row h-2" mat-row *matRowDef="let row; columns: catalogoTableColumns;"></tr>
@@ -222,7 +212,7 @@
                                         </th>
                                         <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                             <span class="flex items-center">
-                                                <span class="ml-2">{{detalle.precioServicio}}</span>
+                                                <span class="ml-2">{{detalle.nombreServicio}}</span>
                                             </span>
                                         </td>
                                     </ng-container>
@@ -234,7 +224,7 @@
                             </th>
                             <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                 <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.nombreServicio}}</span>
+                                    <span class="ml-2">{{detalle.descripcionServicio}}</span>
                                 </span>
                             </td>
                         </ng-container>
@@ -246,14 +236,11 @@
                             </th>
                             <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                 <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.descripcionServicio}}</span>
+                                    <span class="ml-2">{{detalle.precioServicio}}</span>
                                 </span>
                             </td>
                         </ng-container>
-
-            
-   
-
+  
                         <tr mat-header-row *matHeaderRowDef="seleccionTableColumns"></tr>
                         <tr class="order-row h-2" mat-row *matRowDef="let row; columns: seleccionTableColumns;"></tr>
                         <!-- Reducir height -->
