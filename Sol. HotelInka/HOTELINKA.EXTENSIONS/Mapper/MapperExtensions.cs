@@ -122,7 +122,7 @@ namespace HOTELINKA.EXTENSIONS.Mapper
             dst.ID_ORDEN_SERVICIO = src.Id_Orden_Servicio;
             dst.ID_ORDEN_HOSPEDAJE = src.id_Orden_Hospedaje;
             dst.ID_SERVICIO = src.id_Servicio;
-            dst.FECHA_SOLICITUD = src.fecchaSoliciutd;
+            dst.FECHA_SOLICITUD = DateTime.UtcNow;
             dst.ESTADO = "Pendiente de proveedor";
             });
 

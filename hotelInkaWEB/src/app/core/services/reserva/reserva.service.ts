@@ -8,6 +8,8 @@ import { ObtenerReservaxDNI } from 'app/core/models/reserva/response/lista/obten
 import { ObtenerOrdenHospedajeXDNI } from 'app/core/models/reserva/response/Obtener-orden-hospedaje-x-dni';
 import { ObtenerCatalogoXTipoDTO } from 'app/core/models/reserva/response/Obtener-catalogo-servicios-por-tipo';
 import { ObtenerTiposServiciosDTO } from 'app/core/models/reserva/response/lista/Obtener-tipo-servicio';
+import { RegistrarOrdenServicio } from 'app/core/models/reserva/response/lista/Registrar-orden-servicio';
+import { ResponseDTO } from 'app/core/models/generic/response-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +46,11 @@ export class ReservaService {
 
   ObtenerTipoServicioAsync(): Observable<ObtenerTiposServiciosDTO[]> {
     return this.apiService.get(Url.Reserva.ObtenerTipoServicioAsync)
+      .pipe(tap(data => data));
+  }
+
+  AddOrdenServicioAsync(request: RegistrarOrdenServicio): Observable<ResponseDTO> {
+    return this.apiService.post(Url.Reserva.AddOrdenServicioAsync,request)
       .pipe(tap(data => data));
   }
 

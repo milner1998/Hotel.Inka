@@ -17,6 +17,8 @@ import { ObtenerCatalogoXTipoDTO } from 'app/core/models/reserva/response/Obtene
 import { ObtenerTiposServiciosDTO } from 'app/core/models/reserva/response/lista/Obtener-tipo-servicio';
 import { MatSelectChange } from '@angular/material/select';
 import { CommonValidators } from 'app/core/util/functions';
+import { ResponseDTO } from 'app/core/models/generic/response-dto.model';
+import { RegistrarOrdenServicio } from 'app/core/models/reserva/response/lista/Registrar-orden-servicio';
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -84,6 +86,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
         this.pageSliceSeleccionado.data  = [] 
         this.pageSliceSeleccionado.data.push(select);
+        this.PostGenerarOrdenServicio();
 
     }
 
@@ -264,6 +267,24 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         this._reservaService.ObtenerTipoServicioAsync().subscribe((response: ObtenerTiposServiciosDTO[]) => {
             this.disabledBuscar = Flags.False;
             this.lstTipoServicio = response;
+ 
+        }, err => {
+            this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
+            this.disabledBuscar = Flags.False;
+            console.log(err);
+
+        });
+    }
+
+    PostGenerarOrdenServicio() {
+        const request= new RegistrarOrdenServicio()
+
+        request.idOrdenHospedaje= "OH001"
+        request.idOrdenServicio = 2
+        request.idServicio= "10"
+
+        this._reservaService.AddOrdenServicioAsync(request).subscribe((response: ResponseDTO) => {
+            this.disabledBuscar = Flags.False;
  
         }, err => {
             this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);

@@ -11,7 +11,7 @@ export const Reserva = {
    ObtenerOrdenHospedajeAsync:  '/api/Reserva/ObtenerOrdenHospedajeAsync',
    ObtenerCatalogoXTipoAsync:  '/api/Reserva/ObtenerCatalogoXTipoAsync',
    ObtenerTipoServicioAsync:  '/api/Reserva/ObtenerTipoServicioAsync',
-   
+   AddOrdenServicioAsync:  '/api/Reserva/AddOrdenServicioAsync',
 };
  
  
