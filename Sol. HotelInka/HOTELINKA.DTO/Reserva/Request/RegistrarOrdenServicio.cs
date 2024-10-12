@@ -24,9 +24,6 @@ namespace HOTELINKA.DTO.Reserva.Request
         [JsonPropertyName("idServicio")]
         public string id_Servicio { get; set; }
 
-        [SwaggerSchema("Fecha de Solicitud")]
-        [JsonPropertyName("fechaSolicitud")] 
-        public DateTime fecchaSoliciutd { get; set; }
 
     }   
 }
