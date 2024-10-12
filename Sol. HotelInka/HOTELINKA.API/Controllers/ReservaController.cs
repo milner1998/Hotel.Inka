@@ -111,7 +111,7 @@ namespace HOTELINKA.API.Controllers
         [SwaggerResponse(200, "Orden de Hospedaje")]
         [SwaggerResponse(500, "Error interno en el servidor")]
         [HttpPost("AddOrdenServicioAsync")]
-        public async Task<IActionResult> AddOrdenServicioAsync([FromBody] RegistrarOrdenServicio request)
+        public async Task<IActionResult> AddOrdenServicioAsync([FromBody] List<RegistrarOrdenServicio> request)
         {
             return Ok(await _reservaService.AddOrdenServicioAsync(request));
         }

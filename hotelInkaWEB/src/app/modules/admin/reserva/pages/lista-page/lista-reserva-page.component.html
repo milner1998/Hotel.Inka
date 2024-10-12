@@ -236,7 +236,7 @@
                             </th>
                             <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
                                 <span class="flex items-center">
-                                    <span class="ml-2">{{detalle.precioServicio}}</span>
+                                    <span class="ml-2">{{detalle.precioServicio  | currency}}</span>
                                 </span>
                             </td>
                         </ng-container>
@@ -256,19 +256,7 @@
                                 {{detalle.precioTotal | currency}}
                             </td>
                         </ng-container>    
-
-                        <!-- Columna Seleccione -->
-                        <ng-container matColumnDef="acciones">
-                                                <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
-                                                    Generar orden
-                                                </th>
-                                                <td mat-cell *matCellDef="let detalle" class="px-2 py-1">
-                                                    <button mat-button color="primary" (click)="onGenerarOrden(detalle)">
-                                                        Generar orden
-                                                    </button>
-                                                </td>
-                                            </ng-container>
-                       
+ 
                         <!-- Columna Borrar -->
                         <!-- <ng-container matColumnDef="delete">
                                                 <th mat-header-cell *matHeaderCellDef class="px-2 py-1">
@@ -288,8 +276,8 @@
                     </table>
                 </div>
             </div>
-        <button class="w-auto sm:w-48 sm:ml-4 m-2" mat-flat-button [color]="'primary'" type="button"
-            ()="btnBuscar()" [disabled]="filtroListaClienteForm.invalid">
+        <button class="w-auto sm:w-48 sm:ml-4 m-2"  mat-flat-button [color]="'primary'" type="button"
+              [disabled]="filtroListaClienteForm.invalid"   (click)="generarOrdenclick()">
             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
             <span class="ml-2">
                 Generar Orden de Servicio

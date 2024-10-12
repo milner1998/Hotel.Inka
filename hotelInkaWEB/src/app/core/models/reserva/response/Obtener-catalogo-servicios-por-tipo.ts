@@ -5,4 +5,6 @@ export interface ObtenerCatalogoXTipoDTO {
     nombreServicio:string;
     descripcionServicio:string;
     precioServicio: number;
+    precioTotal: number;
+    cantidad: number
 }

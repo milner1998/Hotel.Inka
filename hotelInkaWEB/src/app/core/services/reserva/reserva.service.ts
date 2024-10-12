@@ -49,7 +49,7 @@ export class ReservaService {
       .pipe(tap(data => data));
   }
 
-  AddOrdenServicioAsync(request: RegistrarOrdenServicio): Observable<ResponseDTO> {
+  AddOrdenServicioAsync(request: RegistrarOrdenServicio[]): Observable<ResponseDTO> {
     return this.apiService.post(Url.Reserva.AddOrdenServicioAsync,request)
       .pipe(tap(data => data));
   }

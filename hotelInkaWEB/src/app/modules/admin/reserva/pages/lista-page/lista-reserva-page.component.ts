@@ -20,6 +20,8 @@ import { CommonValidators } from 'app/core/util/functions';
 import { ResponseDTO } from 'app/core/models/generic/response-dto.model';
 import { RegistrarOrdenServicio } from 'app/core/models/reserva/response/lista/Registrar-orden-servicio';
 import { messages } from 'app/mock-api/apps/chat/data';
+import { forEach } from 'lodash';
+import { Message } from '../../../../../layout/common/messages/messages.types';
 
 @Component({
     selector: 'app-lista-reserva-page',
@@ -41,6 +43,8 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     public hayDatosCliente: boolean = false;
     public selecccionTipoServicio: boolean = false;
     public modelCantidad: number = 0;
+
+    public modelRegistrar: RegistrarOrdenServicio[] = []
 
     public ordenHospedaje: string;
 
@@ -65,7 +69,7 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     
     public catalogoTableColumns: string[] = ['idServicio', 'nombreServicio', 'descripcionServicio' , 'precioServicio' , 'acciones'];
     public catalogoHabitacionesTableColumns: string[] = ['numHabitacion', 'tipoHabitacion', 'capacidad', 'precioxNoche', 'descripcionHabitacion', 'estadoHabitacion'];
-    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio','cantidad','precioTotal', 'acciones' ,'delete' ];
+    public seleccionTableColumns: string[] = ['idServicio', 'nombreServicio', 'precioServicio','cantidad','precioTotal',   ];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -85,9 +89,21 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         this.isCallingService = Flags.True;
     }
 
+    calcularTotal(detalle: ObtenerCatalogoXTipoDTO){
+        if (detalle.cantidad && detalle.precioServicio) {
+            detalle.precioTotal = detalle.cantidad * detalle.precioServicio;
+          } else {
+            detalle.precioTotal = 0; // En caso de valores no válidos
+          }
+    }
+
     onSeleccionar(select: ObtenerCatalogoXTipoDTO){
-        debugger;
         this.selecccionTipoServicio = true;
+
+        if (this.pageSliceSeleccionado.some(x => x.idServicio === select.idServicio)) {
+            this._toolService.showWarning("Ya ha seleccionado este servicio",DictionaryWarning.Tittle)
+            return;
+        }
 
         
         this.pageSliceSeleccionado.push(select);
@@ -98,18 +114,22 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
 
         request.idOrdenHospedaje = this.ordenHospedaje;
         request.idServicio = select.idServicio;
-        //request.cantidad =
-        //request.precioTotal = select.precioServicio *  
-        //this.PostGenerarOrdenServicio()
     }
 
-    // Eliminar(select: ObtenerCatalogoXTipoDTO){
-    //     debugger;
-        
-    //     //this.pageSliceSeleccionado.(select);
-    //     this.pageSliceSeleccionado = this.pageSliceSeleccionado.filter(item => item.idServicio !== select.idServicio);
+    generarOrdenclick(){
 
-    // }
+        this.pageSliceSeleccionado.forEach(item => {
+            const request = new RegistrarOrdenServicio();
+ 
+            request.idOrdenHospedaje = this.ordenHospedaje;
+            request.idServicio = item.idServicio;
+            request.cantidad = item.cantidad;
+            request.precioTotal = item.precioTotal
+
+            this.modelRegistrar.push(request);
+        });
+            this.PostGenerarOrdenServicio(this.modelRegistrar)
+    }
 
     ngAfterViewInit() {
         this.pageSlice.sortingDataAccessor = this.sortingActivoData;
@@ -142,7 +162,6 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     onTipoServicioChange(event: MatSelectChange){
-        debugger;
        this.GetCatalogoXTipoAsync(event.value.idTipoServicio);
     }
 
@@ -256,7 +275,6 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
     GetCatalogoXTipoAsync(tipo: number) {
         this._reservaService.ObtenerCatalogoXTipoAsync(tipo).subscribe((response: ObtenerCatalogoXTipoDTO[]) => {
              if(response){
-                debugger;
                 this.setPageSlicePersona(response);
                 this.disabledBuscar = Flags.False;
                 return;
@@ -304,14 +322,15 @@ export class ListaReservaPageComponent implements OnInit, AfterViewInit, OnDestr
         });
     }
 
-    PostGenerarOrdenServicio(request:RegistrarOrdenServicio) {
-
+    PostGenerarOrdenServicio(request:RegistrarOrdenServicio[]) {
+ 
         this._reservaService.AddOrdenServicioAsync(request).subscribe((response: ResponseDTO) => {
             this.disabledBuscar = Flags.False;
-            this._toolService.showSuccess(response.message,DictionarySucess.Transaction)
- 
+            this._toolService.showSuccess("Se generó su orden correctamente", DictionarySucess.Tittle);
+            this.btnLimpiar();
         }, err => {
             this._toolService.showError(DictionaryErrors.Transaction, DictionaryErrors.Tittle);
+
             this.disabledBuscar = Flags.False;
             console.log(err);
 

@@ -25,7 +25,7 @@ namespace HOTELINKA.DOMAIN.Interface
 
         Task<List<t07_tipo_servicio>> GetTipoServicio();
 
-        Task<t05_orden_de_servicios> AddOrdenServicioAsync(t05_orden_de_servicios ordenServicio);
+        Task AddOrdenServicioAsync(t05_orden_de_servicios ordenServicio);
 
         /*Task<Reserva> GetReservaXDNI(string dni);*/
     }

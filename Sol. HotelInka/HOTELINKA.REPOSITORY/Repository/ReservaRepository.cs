@@ -99,11 +99,11 @@ namespace HOTELINKA.REPOSITORY.Repository
 
         }
 
-        public async Task<t05_orden_de_servicios> AddOrdenServicioAsync(t05_orden_de_servicios ordenServicio)
+        public async Task AddOrdenServicioAsync(t05_orden_de_servicios ordenServicio)
         {
             await InsertAsync(ordenServicio);
             await _context.SaveChangesAsync();
-            return ordenServicio;
+    
         }
 
         /*public async Task<Reserva> GetReservaXDNI(string dni)

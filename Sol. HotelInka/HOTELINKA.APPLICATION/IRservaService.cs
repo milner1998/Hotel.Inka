@@ -20,7 +20,7 @@ namespace HOTELINKA.APPLICATION
 
         Task<List<ObtenerTiposServiciosDTO>> ObtenerTipoServicioAsync();
 
-        Task<ResponseDTO> AddOrdenServicioAsync(RegistrarOrdenServicio request);
+        Task<ResponseDTO> AddOrdenServicioAsync(List<RegistrarOrdenServicio> request);
 
         /*Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni);*/
     }

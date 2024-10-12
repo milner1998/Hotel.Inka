@@ -1,6 +1,7 @@
 export const DictionarySucess = {
   Email: 'Correo enviado correctamente',
   Transaction: 'Transacción Realizada correctamente',
+  Tittle: 'Operación completada satisfactoriamente',
 };
 
 export const DictionaryInfo = {

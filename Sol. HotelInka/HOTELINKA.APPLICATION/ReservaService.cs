@@ -71,10 +71,17 @@ namespace HOTELINKA.APPLICATION
             return _mapper.Map<List<ObtenerTiposServiciosDTO>>(await _reservaRepository.GetTipoServicio());
         }
 
-        public async Task<ResponseDTO> AddOrdenServicioAsync(RegistrarOrdenServicio request)
+        public async Task<ResponseDTO> AddOrdenServicioAsync(List<RegistrarOrdenServicio> request)
         {
+            foreach (var item in request)
+            {
+                await _reservaRepository.AddOrdenServicioAsync(_mapper.Map<t05_orden_de_servicios>(item));
+            }
 
-            return _mapper.Map<ResponseDTO>(await _reservaRepository.AddOrdenServicioAsync(_mapper.Map<t05_orden_de_servicios>(request)));
+            return new ResponseDTO()
+            {
+                Success = true,
+            };
         }
 
         /*public async Task<ObtenerReservaDTO> ObtenerReservarxDNIAsync(string dni)
